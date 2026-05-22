@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('konten_materis', function (Blueprint $table) {
             $table->id();
             $table->foreignId('materi_id')->constrained('materis')->onDelete('cascade');
-            $table->enum('tipe', ['gambar', 'video', 'audio']);
+            $table->enum('tipe', ['materi', 'video', 'audio']);
             $table->text('isi')->nullable();
+            $table->string('link')->nullable();
             $table->text('deskripsi')->nullable();
             $table->integer('durasi')->nullable();
             $table->integer('urutan');

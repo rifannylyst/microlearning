@@ -16,6 +16,9 @@
         <a href="{{ route('admin.materi') }}" class="block rounded-2xl px-4 py-3 text-sm font-medium transition {{ request()->routeIs('mapel') ? 'bg-slate-700 text-white shadow-inner' : 'text-white hover:bg-slate-700 hover:text-white' }}">
             Daftar Materi
         </a>
+        <a href="{{ route('admin.progress') }}" class="block rounded-2xl px-4 py-3 text-sm font-medium transition {{ request()->routeIs('pengguna') ? 'bg-slate-700 text-white shadow-inner' : 'text-white hover:bg-slate-700 hover:text-white' }}">
+            Data Progres
+        </a>
         <a href="{{ route('admin.pengguna') }}" class="block rounded-2xl px-4 py-3 text-sm font-medium transition {{ request()->routeIs('pengguna') ? 'bg-slate-700 text-white shadow-inner' : 'text-white hover:bg-slate-700 hover:text-white' }}">
             Data Pengguna
         </a>

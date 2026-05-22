@@ -21,7 +21,8 @@ class AdminController extends Controller
     {
         $query = Materi::query();
         $materis = $query->get();
-        return view('admin.pages.materi', compact('materis'));
+        $admins = User::where('role', 'admin')->get();
+        return view('admin.pages.materi', compact('materis', 'admins'));
     }
 
     public function materiStore(Request $request)
@@ -30,9 +31,9 @@ class AdminController extends Controller
             'judul' => 'required|string|max:255',
             'deskripsi' => 'required|string',
             'urutan' => 'required|integer',
+            'created_by' => 'required|exists:users,id',
         ]);
 
-        $validatedData['created_by'] = Auth::id();
 
         Materi::create($validatedData);
 
@@ -43,21 +44,46 @@ class AdminController extends Controller
     {
         $materi = Materi::with('konten_materi')->findOrFail($id);
         $nextUrutan = (KontenMateri::where('materi_id', $id)->max('urutan') ?? 0) + 1;
-        return view('admin.pages.detail-materi', compact('materi', 'nextUrutan'));
+        $admins = User::where('role', 'admin')->get();
+        return view('admin.pages.detail-materi', compact('materi', 'nextUrutan', 'admins'));
+    }
+
+    public function materiUpdate(Request $request, $id)
+    {
+        $materi = Materi::findOrFail($id);
+
+        $validatedData = $request->validate([
+            'judul' => 'required|string|max:255',
+            'deskripsi' => 'required|string',
+            'urutan' => 'required|integer',
+            'created_by' => 'required|exists:users,id',
+        ]);
+
+        $materi->update($validatedData);
+
+        return redirect()->route('admin.materi')->with('success', 'Materi berhasil diperbarui.');
+    }
+
+    public function materiDelete($id)
+    {
+        $materi = Materi::findOrFail($id);
+        $materi->delete();
+
+        return redirect()->route('admin.materi')->with('success', 'Materi berhasil dihapus.');
     }
 
    public function kontenStore(Request $request, $materiId)
     {
         $validatedData = $request->validate([
-            'tipe' => 'required|in:gambar,video,audio',
-            'isi' => 'nullable|file|mimes:jpg,jpeg,png,mp4,mp3|max:10240',
+            'tipe' => 'required|in:materi,video,audio',
+            'isi' => 'nullable|file|mimes:mp4,mp3,pdf,doc,docx|max:20480',
             'durasi' => 'nullable|integer',
             'deskripsi' => 'nullable|string',
         ]);
 
-        // urutan otomatis
-        $urutan = (KontenMateri::where('materi_id', $materiId)
-            ->max('urutan') ?? 0) + 1;
+       $urutan = (KontenMateri::where('materi_id', $materiId)
+        ->where('tipe', $request->tipe)
+        ->max('urutan') ?? 0) + 1;
 
         // default null
         $path = null;
@@ -72,6 +98,7 @@ class AdminController extends Controller
             'materi_id' => $materiId,
             'tipe' => $validatedData['tipe'],
             'isi' => $path,
+            'link' => $request->input('link') ?? null,
             'deskripsi' => $validatedData['deskripsi'] ?? null,
             'durasi' => $validatedData['durasi'] ?? null,
             'urutan' => $urutan,
@@ -116,36 +143,26 @@ class AdminController extends Controller
         return redirect()->route('admin.materi.detail-materi', $materiId)->with('success', 'Konten materi berhasil dihapus.');
     }
     
-    public function tambahQuiz(Request $request, $materiId)
+    public function getNextUrutan($id, $tipe)
     {
-        $validatedData = $request->validate([
-            'judul' => 'required|string|max:255',
+       $lastUrutan = KontenMateri::where('materi_id', $id)
+        ->where('tipe', $tipe)
+        ->max('urutan');
+
+        return response()->json([
+            'nextUrutan' => ($lastUrutan ?? 0) + 1
         ]);
-
-        $validatedData['materi_id'] = $materiId;
-
-        Quiz::create($validatedData);
-
-        return redirect()->route('admin.materi.detail-materi', $materiId)->with('success', 'Quiz berhasil ditambahkan.');
-    }
-
-    public function detailQuiz($id)
+    } 
+    
+    public function progress()
     {
-        $quiz = Quiz::with('pertanyaan')->findOrFail($id);
-        return view('admin.pages.detail-quiz', compact('quiz'));
+        $users = User::with([
+            'progressKonten.kontenMateri',
+            'hasil_quiz.quiz.materi'
+        ])->get();
+
+        return view('admin.pages.progress', compact('users'));
     }
 
-    public function pertanyaanStore(Request $request, $quizId)
-    {
-        $validatedData = $request->validate([
-            'soal' => 'required|string',
-            'tipe' => 'required|in:pilihan_ganda,isian',
-        ]);
 
-        $validatedData['quiz_id'] = $quizId;
-
-        Pertanyaan::create($validatedData);
-
-        return redirect()->route('admin.quiz.detail-quiz', $quizId)->with('success', 'Pertanyaan berhasil ditambahkan.');
-    }
 }

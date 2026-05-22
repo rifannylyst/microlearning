@@ -13,15 +13,17 @@ class HasilQuiz extends Model
     protected $fillable = [
         'user_id',
         'quiz_id',
-        'skor',
-        'tanggal_dikerjakan',
+        'score',
+        'jumlah_benar',
+        'jumlah_soal',
+        'status',
     ];
 
     public function user() {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function quiz() {
-        return $this->belongsTo(Quiz::class);
+        return $this->belongsTo(Quiz::class, 'quiz_id');
     }
 }

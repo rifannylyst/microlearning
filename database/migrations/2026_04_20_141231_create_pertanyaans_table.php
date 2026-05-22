@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('quiz_id')->constrained('quizzes')->onDelete('cascade');
             $table->text('soal');
             $table->enum('tipe', ['pilihan_ganda', 'isian']);
-            $table->integer('points')->default(1);
             $table->timestamps();
         });
     }

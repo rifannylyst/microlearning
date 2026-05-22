@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('jawaban_siswas', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('quiz_id')->references('id')->on('quizzes')->onDelete('cascade');
             $table->foreignId('pertanyaan_id')->constrained('pertanyaans')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('pilhan_jawaban_id')->nullable()->constrained('jawabans')->onDelete('set null');
+            $table->foreignId('pilihan_jawaban_id')->nullable()->constrained('jawabans')->nullOnDelete();
             $table->text('isian_jawaban')->nullable();
+            $table->boolean('is_benar')->nullable();
             $table->timestamps();
         });
     }

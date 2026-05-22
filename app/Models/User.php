@@ -75,11 +75,15 @@ public function tam_responses() {
 }
 
 public function progress() {
-    return $this->hasMany(Progress::class, 'user_id');
+    return $this->hasMany(Progress::class);
+}
+
+public function progressKonten(){
+    return $this->hasMany(ProgressKonten::class);
 }
 
 public function hasil_quiz() {
-    return $this->hasMany(HasilQuiz::class, 'user_id');
+    return $this->hasMany(HasilQuiz::class);
 }
 
 public function isAdmin() {

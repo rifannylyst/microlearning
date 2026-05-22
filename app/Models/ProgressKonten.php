@@ -17,7 +17,7 @@ class ProgressKonten extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function konten_materi() {
+    public function kontenMateri() {
         return $this->belongsTo(KontenMateri::class, 'konten_materi_id');
     }
 }

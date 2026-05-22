@@ -11,7 +11,7 @@ class Jawaban extends Model
 
     protected $fillable = [
         'pertanyaan_id',
-        'isian_jawaban',
+        'jawaban',
         'is_benar',
     ];
 

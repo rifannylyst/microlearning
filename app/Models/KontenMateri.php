@@ -13,6 +13,7 @@ class KontenMateri extends Model
         'materi_id',
         'tipe',
         'isi',
+        'link',
         'deskripsi',
         'durasi',
         'urutan',
@@ -24,5 +25,13 @@ class KontenMateri extends Model
 
     public function progressUser(){
         return $this->hasMany(ProgressKonten::class, 'konten_materi_id');
+    }
+
+    public function progress(){
+        return $this->hasMany(Progress::class);
+    }
+
+    public function progressKonten(){
+        return $this->hasMany(ProgressKonten::class);
     }
 }

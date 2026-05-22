@@ -12,11 +12,6 @@ class materiSeeder extends Seeder
      */
     public function run(): void
     {
-       \App\Models\materi::create([
-        'judul' => 'Materi 1',
-        'deskripsi' => 'Deskripsi materi 1',
-        'urutan' => '1',
-        'created_by' => 1,
-       ]);
+        //
     }
 }

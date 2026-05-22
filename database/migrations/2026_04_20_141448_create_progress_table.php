@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('materi_id')->constrained('materis')->onDelete('cascade');
+            $table->enum('tipe', ['materi', 'video', 'audio']);
             $table->enum('status', ['belum_dimulai', 'sedang_dikerjakan', 'selesai'])->default('belum_dimulai');
             $table->integer('persentase')->default(0);
             $table->datetime('last_accessed')->nullable();

@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('quiz_id')->constrained('quizzes')->onDelete('cascade');
-            $table->integer('skor')->default(0);
-            $table->datetime('tanggal_dikerjakan')->nullable();
+            $table->integer('score')->default(0);
+            $table->integer('jumlah_benar')->default(0);
+            $table->integer('jumlah_soal')->default(0);
+            $table->enum('status', ['lulus', 'tidak_lulus']);
             $table->timestamps();
         });
     }

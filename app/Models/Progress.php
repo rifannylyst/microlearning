@@ -13,6 +13,7 @@ class Progress extends Model
     protected $fillable = [
         'user_id',
         'materi_id',
+        'tipe',
         'status',
         'persentase',
         'last_accessed',
@@ -24,5 +25,9 @@ class Progress extends Model
 
     public function materi() {
         return $this->belongsTo(Materi::class, 'materi_id');
+    }
+
+    public function kontenMateri(){
+        return $this->belongsTo(KontenMateri::class);
     }
 }

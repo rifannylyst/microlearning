@@ -17,7 +17,7 @@ class Quiz extends Model
     ];
 
     public function materi() {
-        return $this->belongsTo(Materi::class, 'materi_id');
+        return $this->belongsTo(Materi::class);
     }
 
     public function pertanyaan() {

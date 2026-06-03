@@ -45,7 +45,10 @@ class MateriController extends Controller
 
             $quizUnlocked = $kontenSelesai > 0;
 
-           
+            $hasilQuiz = HasilQuiz::where('user_id', $userId)
+                ->get()
+                ->keyBy('quiz_id');
+
             $this->updateProgressByTipe(
                 $userId,
                 $materi->id,
@@ -82,6 +85,7 @@ class MateriController extends Controller
             return view('content.detail', compact(
                 'materi',
                 'quizUnlocked',
+                'hasilQuiz',
                 'progressMateri',
                 'progressVideo',
                 'progressAudio'
@@ -168,7 +172,7 @@ class MateriController extends Controller
 
             //total konten yang sudah diselesaikan user
             $selesai = ProgressKonten::where('user_id', $userId)
-                ->whereHas('konten_materi', function($query) use ($id) {
+                ->whereHas('kontenMateri', function($query) use ($id) {
                     $query->where('materi_id', $id);
                 })
                 ->where('is_completed', true)
@@ -216,22 +220,47 @@ class MateriController extends Controller
             $userId = auth()->id();
 
             $materis = Materi::with([
-                'konten_materi',
-                'quiz.hasilQuiz' => function ($query) {
-                    $query->where('user_id', auth()->id());
-                },
-                'progress' => function ($query) {
-                    $query->where('user_id', auth()->id());
+                'quiz.hasilQuiz' => function ($query) use ($userId) {
+                    $query->where('user_id', $userId);
                 }
             ])->get();
 
-            return view('content.progress', compact('materis'));
+            $progress = Progress::where('user_id', $userId)
+                ->get()
+                ->groupBy([
+                    'materi_id',
+                    'tipe'
+                ]);
+
+            $punyaProgress = Progress::where('user_id', $userId)
+            ->where('persentase', '>', 0)
+            ->exists();
+
+            return view('content.progress', compact(
+                'materis',
+                'progress',
+                'punyaProgress'
+            ));
         }
 
         public function quiz($id, $quizId)
         {
             $quiz = Quiz::with('pertanyaan.jawaban')->findOrFail($quizId);
-            return view('content.quiz', compact('quiz'));
+            
+            $jawabanSiswa = jawaban_siswa::where('user_id', Auth::id())
+                ->where('quiz_id', $quizId)
+                ->get()
+                ->keyBy('pertanyaan_id');
+
+            $sudahDikerjakan = HasilQuiz::where('user_id', Auth::id())
+                ->where('quiz_id', $quizId)
+                ->exists();
+            
+            return view('content.quiz', compact(
+                'quiz',
+                'jawabanSiswa',
+                'sudahDikerjakan'
+            ));
         }
 
         public function submitQuiz(Request $request, $id, $quizId)

@@ -19,7 +19,7 @@
     <section class="flex-1 py-10">
         <div class="max-w-7xl mx-auto px-6">
             {{-- JIKA BELUM ADA PROGRESS --}}
-            @if($materis->count() == 0)
+            @if(!$punyaProgress)
                 <div class="bg-white rounded-3xl shadow-sm border border-blue-200 p-16 text-center">
                     <div class="flex justify-center mb-6">
                         <i class="bi bi-book text-6xl text-blue-600"></i>
@@ -59,138 +59,109 @@
                                 </p>
                                 {{-- DETAIL PROGRESS BERDASARKAN TIPE --}}
                                 <div class="space-y-4 mb-6">
-                                    {{-- MATERI --}}
-                                    @php
-                                        $progressMateri = \App\Models\Progress::where([
-                                            'user_id' => auth()->id(),
-                                            'materi_id' => $materi->id,
-                                            'tipe' => 'materi'
-                                        ])->first();
-                                    @endphp
+                                @php
+                                    $progressMateri = $progress[$materi->id]['materi'][0] ?? null;
+                                    $progressVideo  = $progress[$materi->id]['video'][0] ?? null;
+                                    $progressAudio  = $progress[$materi->id]['audio'][0] ?? null;
+                                @endphp
+
+                                @foreach([
+                                    [
+                                        'title' => 'Materi',
+                                        'icon' => 'file-earmark-text',
+                                        'bg' => 'bg-blue-100',
+                                        'text' => 'text-blue-600',
+                                        'bar' => 'bg-blue-500',
+                                        'data' => $progressMateri
+                                    ],
+                                    [
+                                        'title' => 'Video',
+                                        'icon' => 'play-circle',
+                                        'bg' => 'bg-red-100',
+                                        'text' => 'text-red-600',
+                                        'bar' => 'bg-red-500',
+                                        'data' => $progressVideo
+                                    ],
+                                    [
+                                        'title' => 'Audio',
+                                        'icon' => 'headphones',
+                                        'bg' => 'bg-green-100',
+                                        'text' => 'text-green-600',
+                                        'bar' => 'bg-green-500',
+                                        'data' => $progressAudio
+                                    ]
+                                ] as $item)
+
                                     <div class="border rounded-xl p-4">
+
                                         <div class="flex items-center justify-between mb-3">
+
                                             <div class="flex items-center gap-3">
-                                                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
-                                                    <i class="bi bi-file-earmark-text text-blue-600"></i>
+
+                                                <div class="w-10 h-10 rounded-full {{ $item['bg'] }} flex items-center justify-center">
+                                                    <i class="bi bi-{{ $item['icon'] }} {{ $item['text'] }}"></i>
                                                 </div>
+
                                                 <div>
                                                     <h3 class="font-semibold text-gray-800">
-                                                        Materi
+                                                        {{ $item['title'] }}
                                                     </h3>
+
                                                     <p class="text-sm text-gray-400">
-                                                        Progress materi
+                                                        Progress {{ strtolower($item['title']) }}
                                                     </p>
                                                 </div>
+
                                             </div>
-                                            <span class="font-bold text-blue-600">
-                                                {{ $progressMateri->persentase ?? 0 }}%
+
+                                            <span class="font-bold {{ $item['text'] }}">
+                                                {{ $item['data']->persentase ?? 0 }}%
                                             </span>
+
                                         </div>
-                                        {{-- BAR --}}
+
                                         <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden mb-2">
+
                                             <div
-                                                class="bg-blue-500 h-3 rounded-full transition-all duration-500"
-                                                style="width: {{ $progressMateri->persentase ?? 0 }}%">
+                                                class="{{ $item['bar'] }} h-3 rounded-full transition-all duration-500"
+                                                style="width: {{ $item['data']->persentase ?? 0 }}%">
                                             </div>
+
                                         </div>
+
                                         <p class="text-sm text-gray-500 capitalize">
-                                            {{ str_replace('_', ' ', $progressMateri->status ?? 'belum_dimulai') }}
+                                            {{ str_replace('_', ' ', $item['data']->status ?? 'belum_dimulai') }}
                                         </p>
+
                                     </div>
-                                    {{-- VIDEO --}}
-                                    @php
-                                        $progressVideo = \App\Models\Progress::where([
-                                            'user_id' => auth()->id(),
-                                            'materi_id' => $materi->id,
-                                            'tipe' => 'video'
-                                        ])->first();
-                                    @endphp
-                                    <div class="border rounded-xl p-4">
-                                        <div class="flex items-center justify-between mb-3">
-                                            <div class="flex items-center gap-3">
-                                                <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
-                                                    <i class="bi bi-play-circle text-red-600"></i>
-                                                </div>
-                                                <div>
-                                                    <h3 class="font-semibold text-gray-800">
-                                                        Video
-                                                    </h3>
-                                                    <p class="text-sm text-gray-400">
-                                                        Progress video
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <span class="font-bold text-red-600">
-                                                {{ $progressVideo->persentase ?? 0 }}%
-                                            </span>
-                                        </div>
-                                        {{-- BAR --}}
-                                        <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden mb-2">
-                                            <div
-                                                class="bg-red-500 h-3 rounded-full transition-all duration-500"
-                                                style="width: {{ $progressVideo->persentase ?? 0 }}%">
-                                            </div>
-                                        </div>
-                                        <p class="text-sm text-gray-500 capitalize">
-                                            {{ str_replace('_', ' ', $progressVideo->status ?? 'belum_dimulai') }}
-                                        </p>
-                                    </div>
-                                    {{-- AUDIO --}}
-                                    @php
-                                        $progressAudio = \App\Models\Progress::where([
-                                            'user_id' => auth()->id(),
-                                            'materi_id' => $materi->id,
-                                            'tipe' => 'audio'
-                                        ])->first();
-                                    @endphp
-                                    <div class="border rounded-xl p-4">
-                                        <div class="flex items-center justify-between mb-3">
-                                            <div class="flex items-center gap-3">
-                                                <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
-                                                    <i class="bi bi-headphones text-green-600"></i>
-                                                </div>
-                                                <div>
-                                                    <h3 class="font-semibold text-gray-800">
-                                                        Audio
-                                                    </h3>
-                                                    <p class="text-sm text-gray-400">
-                                                        Progress audio
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <span class="font-bold text-green-600">
-                                                {{ $progressAudio->persentase ?? 0 }}%
-                                            </span>
-                                        </div>
-                                        {{-- BAR --}}
-                                        <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden mb-2">
-                                            <div
-                                                class="bg-green-500 h-3 rounded-full transition-all duration-500"
-                                                style="width: {{ $progressAudio->persentase ?? 0 }}%">
-                                            </div>
-                                        </div>
-                                        <p class="text-sm text-gray-500 capitalize">
-                                            {{ str_replace('_', ' ', $progressAudio->status ?? 'belum_dimulai') }}
-                                        </p>
-                                    </div>
-                                </div>
+
+                                @endforeach
+
+                            </div>
                                 {{-- HASIL QUIZ --}}
                                 @if($materi->quiz->count())
+
                                 <div class="mb-6">
+
                                     <h3 class="font-bold text-gray-700 mb-3">
                                         Hasil Quiz
                                     </h3>
+
                                     <div class="space-y-3">
+
                                         @foreach($materi->quiz as $quiz)
+
                                             @php
-                                                $hasil = $quiz->hasilQuiz->where('user_id', auth()->id());
+                                                $hasil = $quiz->hasilQuiz->first();
                                             @endphp
-                                            @foreach ($quiz->hasilQuiz as $hasil)
+
                                             <div class="border rounded-xl p-3 flex items-center justify-between">
+
                                                 <div>
                                                     <h4 class="font-medium text-gray-800">
                                                         {{ $quiz->judul }}
                                                     </h4>
+
                                                     @if($hasil)
                                                         <p class="text-sm text-gray-500">
                                                             Nilai: {{ $hasil->score }}
@@ -201,25 +172,33 @@
                                                         </p>
                                                     @endif
                                                 </div>
-                                                @if($hasil)
-                                                    @if($hasil->score >= 75)
-                                                        <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm">
-                                                            Lulus
-                                                        </span>
-                                                    @else
-                                                        <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm">
-                                                            Belum Lulus
-                                                        </span>
-                                                    @endif
-                                                @else
+
+                                                @if(!$hasil)
+
                                                     <span class="bg-gray-100 text-gray-500 px-3 py-1 rounded-full text-sm">
                                                         Belum Dikerjakan
                                                     </span>
+
+                                                @elseif($hasil->status == 'lulus')
+
+                                                    <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm">
+                                                        Lulus
+                                                    </span>
+
+                                                @else
+
+                                                    <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm">
+                                                        Belum Lulus
+                                                    </span>
+
                                                 @endif
-                                                @endforeach
+
                                             </div>
+
                                         @endforeach
+
                                     </div>
+
                                 </div>
 
                                 @endif

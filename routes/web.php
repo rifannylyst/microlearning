@@ -22,6 +22,7 @@ Route::middleware('auth')->group(function() {
     Route::post('/materi/{id}/quiz/{quizId}/submit', [App\Http\Controllers\MateriController::class, 'submitQuiz'])->name('quiz.submit');
     Route::get('/progress', [App\Http\Controllers\MateriController::class, 'pembelajaranSaya'])->name('progress');
     //Route::get('/search', [App\Http\Controllers\UtilsController::class, 'search'])->name('search');
+    Route::get('/profile', [App\Http\Controllers\HomeController::class, 'profile'])->name('profile');
 });
 
 Route::middleware(['auth', 'admin'])
@@ -47,4 +48,5 @@ Route::middleware(['auth', 'admin'])
     Route::delete('/jawaban/{id}', [App\Http\Controllers\KuisController::class, 'jawabanDelete'])->name('admin.jawaban.destroy');
     Route::get('/pengguna', [App\Http\Controllers\AdminController::class, 'pengguna'])->name('admin.pengguna');
     Route::get('/progress', [App\Http\Controllers\AdminController::class, 'progress'])->name('admin.progress');
+    Route::get('/progress/{id}', [App\Http\Controllers\AdminController::class, 'detailProgress'])->name('admin.progress.detail');
     });

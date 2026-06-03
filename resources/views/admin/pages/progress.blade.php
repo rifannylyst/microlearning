@@ -1,157 +1,89 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Data Progres')
-
 @section('content')
-    <div class="container mx-auto px-4 py-8">
-        <h1 class="text-2xl font-bold mb-4">Data Progres</h1>
-        <!-- Content for progress data -->
-        <table class="w-full border-collapse border border-gray-300">
-        <thead>
-            <tr class="bg-gray-100">
-                <th class="border p-2">Siswa</th>
-                <th class="border p-2">Materi</th>
-                <th class="border p-2">Materi</th>
-                <th class="border p-2">Video</th>
-                <th class="border p-2">Audio</th>
-                <th class="border p-2">Quiz</th>
-                <th class="border p-2">Average gScore</th>
-                <th class="border p-2">Progress Quiz</th>
-            </tr>
-        </thead>
 
-        <tbody>
-            @foreach ($users as $user)
-                @foreach ($user->hasil_quiz as $hasil)
-                    <tr>
-                        <td class="border p-2">
-                            {{ $user->name }}
-                        </td>
+<div class="p-6">
 
-                        <td class="border p-2">
-                            {{ $hasil->quiz->materi->judul ?? '-' }}
-                        </td>
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">
+        Progress Siswa
+    </h1>
 
-                        <td class="border p-2">
-                            @php
-                                $materiId = $hasil->quiz->materi_id ?? null;
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 
-                                $totalMateri = \App\Models\KontenMateri::where('materi_id', $materiId)
-                                    ->where('tipe', 'materi')
-                                    ->count();
+    @foreach($users as $user)
 
-                                $doneMateri = $user->progressKonten
-                                    ->where('kontenMateri.materi_id', $materiId)
-                                    ->where('is_completed', true)
-                                    ->filter(function ($p) {
-                                        return optional($p->kontenMateri)->tipe === 'materi';
-                                    })
-                                    ->count();
+        @php
+            $progress = round($user->progress->avg('persentase') ?? 0);
+            $quiz = round($user->hasil_quiz->avg('score') ?? 0);
+        @endphp
 
-                                $progressMateri = $totalMateri > 0
-                                    ? round(($doneMateri / $totalMateri) * 100)
-                                    : 0;
-                            @endphp
+        <div class="bg-white border rounded-xl p-4 hover:shadow-md transition">
 
-                            {{ $progressMateri }}%
-                        </td>
+            <div class="flex justify-between items-start mb-3">
 
-                        <td class="border p-2">
-                            @php
-                                $totalVideo = \App\Models\KontenMateri::where('materi_id', $materiId)
-                                    ->where('tipe', 'video')
-                                    ->count();
+                <div>
+                    <h3 class="font-semibold text-gray-800">
+                        {{ $user->name }}
+                    </h3>
 
-                               $doneVideo = $user->progressKonten
-                                    ->where('is_completed', true)
-                                    ->filter(function ($p) use ($materiId) {
-                                        return optional($p->kontenMateri)->tipe === 'video'
-                                            && optional($p->kontenMateri)->materi_id == $materiId;
-                                    })
-                                    ->count();
+                    <p class="text-sm text-gray-500">
+                        {{ $user->email }}
+                    </p>
+                </div>
 
-                                $progressVideo = $totalVideo > 0
-                                    ? round(($doneVideo / $totalVideo) * 100)
-                                    : 0;
-                            @endphp
+                @if($progress >= 75)
+                    <span class="text-xs px-2 py-1 bg-green-100 text-green-600 rounded-full">
+                        Aktif
+                    </span>
+                @else
+                    <span class="text-xs px-2 py-1 bg-gray-100 text-gray-500 rounded-full">
+                        Belajar
+                    </span>
+                @endif
 
-                            {{ $progressVideo }}%
-                        </td>
+            </div>
 
-                        <td class="border p-2">
-                            @php
-                                $totalAudio = \App\Models\KontenMateri::where('materi_id', $materiId)
-                                    ->where('tipe', 'audio')
-                                    ->count();
+            {{-- Progress --}}
+            <div class="mb-3">
 
-                               $doneAudio = $user->progressKonten
-                                ->where('is_completed', true)
-                                ->filter(function ($p) use ($materiId) {
-                                    return optional($p->kontenMateri)->tipe === 'audio'
-                                        && optional($p->kontenMateri)->materi_id == $materiId;
-                                })
-                                ->count();
+                <div class="flex justify-between text-sm mb-1">
+                    <span>Progress Pembelajaran</span>
+                    <span>{{ $progress }}%</span>
+                </div>
 
-                                $progressAudio = $totalAudio > 0
-                                    ? round(($doneAudio / $totalAudio) * 100)
-                                    : 0;
-                            @endphp
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div
+                        class="bg-blue-500 h-2 rounded-full"
+                        style="width: {{ $progress }}%">
+                    </div>
+                </div>
 
-                            {{ $progressAudio }}%
-                        </td>
+            </div>
 
-                        @php
-                            $materiId = $hasil->quiz->materi_id ?? null;
+            {{-- Quiz --}}
+            <div class="flex justify-between items-center text-sm">
 
-                            // total quiz dalam materi
-                            $totalQuiz = \App\Models\Quiz::where('materi_id', $materiId)->count();
+                <span class="text-gray-500">
+                   Rata Rata Nilai Quiz
+                </span>
 
-                            // quiz yang sudah dikerjakan user
-                            $doneQuiz = $user->hasil_quiz
-                                ->where('quiz.materi_id', $materiId)
-                                ->count();
+                <span class="font-semibold
+                    {{ $quiz >= 75 ? 'text-green-600' : 'text-red-500' }}">
+                    {{ $quiz }}
+                </span>
 
-                            $progressQuiz = $totalQuiz > 0 
-                                ? round(($doneQuiz / $totalQuiz) * 100)
-                                : 0;
+            </div>
 
-                            // rata-rata score
-                            $totalScore = 0;
+            <a href="{{ route('admin.progress.detail', $user->id) }}"
+            class="mt-4 block text-center bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg">
+                Lihat Detail
+            </a>
+        </div>
 
-                            $quizzes = \App\Models\Quiz::where('materi_id', $materiId)->get();
+    @endforeach
 
-                            foreach ($quizzes as $quiz) {
-                                $hasil = $user->hasil_quiz
-                                    ->where('quiz_id', $quiz->id)
-                                    ->first();
+</div>
 
-                                $totalScore += $hasil->score ?? 0;
-                            }
+</div>
 
-                            $avgScore = $quizzes->count() > 0
-                                ? $totalScore / $quizzes->count()
-                                : 0;
-                        @endphp
-                        <td class="border p-2">
-                            {{ $doneQuiz }}/{{ $totalQuiz }}
-                        </td>
-
-                        <td class="border p-2">
-                            {{ number_format($avgScore ?? 0, 1) }}
-                        </td>
-
-                        <td class="border p-2">
-                            <div class="w-full bg-gray-200 rounded">
-                                <div class="bg-blue-500 text-white text-xs p-1 rounded"
-                                    style="width: {{ $progressQuiz }}%">
-                                    {{ $progressQuiz }}%
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                @endforeach
-            @endforeach
-        </tbody>
-    </table>
-    </div>
 @endsection

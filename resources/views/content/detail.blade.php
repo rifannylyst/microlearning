@@ -84,24 +84,64 @@
             <h2 class="text-2xl font-bold mb-4 text-gray-800">
                 Daftar Quiz
             </h2>
-            @foreach($materi->quiz as $quiz)
-                <div class="border border-gray-200 p-4 rounded-xl mb-3 flex justify-between items-center">
-                    <div>
-                        <h3 class="font-semibold text-gray-800">
-                            {{ $quiz->judul }}
-                        </h3>
-                    </div>
-                    @if($quizUnlocked)
-                        <a href="{{ route('materi.quiz.detail', ['id' => $materi->id, 'quizId' => $quiz->id]) }}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition">
+           @foreach($materi->quiz as $quiz)
+
+            <div class="border border-gray-200 p-4 rounded-xl mb-3 flex justify-between items-center">
+
+                <div>
+                    <h3 class="font-semibold text-gray-800">
+                        {{ $quiz->judul }}
+                    </h3>
+                </div>
+
+                @if($quizUnlocked)
+
+                    @if(isset($hasilQuiz[$quiz->id]))
+
+                        @if($hasilQuiz[$quiz->id]->status == 'lulus')
+
+                            <div class="flex items-center gap-2">
+                                <a href="{{ route('materi.quiz.detail', ['id' => $materi->id, 'quizId' => $quiz->id]) }}" class="bg-green-500 text-white px-3 py-1 rounded-full text-sm">
+                                    Lulus
+                                </a>
+
+                                <span class="text-sm text-gray-500">
+                                    Nilai: {{ $hasilQuiz[$quiz->id]->score }}
+                                </span>
+                            </div>
+
+                        @else
+
+                            <div class="flex items-center gap-2">
+                                <a href="{{ route('materi.quiz.detail', ['id' => $materi->id, 'quizId' => $quiz->id]) }}" class="bg-red-500 text-white px-3 py-1 rounded-full text-sm">
+                                    Tidak Lulus
+                                </a>
+
+                                <span class="text-sm text-gray-500">
+                                    Nilai: {{ $hasilQuiz[$quiz->id]->score }}
+                                </span>
+                            </div>
+
+                        @endif
+
+                    @else
+
+                        <a href="{{ route('materi.quiz.detail', [ 'id' => $materi->id, 'quizId' => $quiz->id]) }}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition">
                             Kerjakan
                         </a>
 
-                    @else
-                        <button disabled class="bg-gray-400 text-white px-4 py-2 rounded-lg">
-                            Terkunci
-                        </button>
                     @endif
-                </div>
+
+                @else
+
+                    <button disabled class="bg-gray-400 text-white px-4 py-2 rounded-lg">
+                        Terkunci
+                    </button>
+
+                @endif
+
+            </div>
+
             @endforeach
         </div>
     @endif

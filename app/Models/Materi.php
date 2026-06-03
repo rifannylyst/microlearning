@@ -26,7 +26,7 @@ class Materi extends Model
     }
 
     public function quiz() {
-        return $this->hasMany(Quiz::class, 'materi_id');
+        return $this->hasMany(Quiz::class);
     }
 
     public function progress() {

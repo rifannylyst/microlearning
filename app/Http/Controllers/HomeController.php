@@ -12,4 +12,9 @@ class HomeController extends Controller
         $materi = Materi::latest('created_at')->take(3)->get();
         return view('content.home', compact('materi'));
     }
+
+    public function profile()
+    {
+        return view('content.profile');
+    }
 }

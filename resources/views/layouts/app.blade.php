@@ -11,14 +11,36 @@
 
     {{-- Navbar --}}
     <nav class="bg-white shadow">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-blue-600 font-bold text-xl">MicroLearn</h1>
-            <ul class="flex space-x-6">
+        <div class="container mx-auto px-6 py-4 relative flex justify-between items-center">
+            <a href="{{ route('home') }}"
+            style="text-decoration: none; text-color: blue; text-font-weight: bold; font-size: 2rem;">
+                MicroLearn
+            </a>
+             <ul class="absolute left-1/2 transform -translate-x-1/2 flex space-x-6 text-gray-700 items-center">
                 <li><a href="{{ route('home') }}" class="hover:text-blue-600">Beranda</a></li>
-                <li><a href="{{ route('materi.index') }}" class="hover:text-blue-600">Kursus</a></li>
-                <li><a href="{{ route('progress') }}" class="hover:text-blue-600">Pembelajaran Saya</a></li>
-                <li><a href="#" class="hover:text-blue-600">Tentang</a></li>
+                <li><a href="{{ route('materi.index') }}" class="hover:text-blue-600">Materi Pembelajaran</a></li>
+                <li><a href="{{ route('progress') }}" class="hover:text-blue-600">Progress Pembelajaran</a></li>
             </ul>
+            <div class="relative">
+                <button onclick="toggleProfile()" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded">
+                    <span class="font-medium"> {{ auth()->user()->name }} </span>
+                    <svg class="w-4 h-4 inline-block ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></svg>
+                </button>
+
+                <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-20">
+                    <div class="px-4 py-2 border-b">
+                        <p class="font-semibold">{{ auth()->user()->name }}</p>
+                        <p class="text-sm text-gray-600">{{ auth()->user()->email }}</p>
+                    </div>
+                    <div class="py-2">
+                        <a href="{{ route('profile') }}" class="block px-4 py-2 text-sm hover:bg-gray-100">Profil</a>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Keluar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -26,45 +48,26 @@
     @yield('content')
 
     {{-- Footer --}}
-    <footer class="bg-indigo-900 text-white mt-10">
-        <div class="container mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div>
-                <h2 class="font-bold text-lg">MicroLearn</h2>
-                <p class="text-sm mt-2">Microlearning untuk masa depan programmer.</p>
-            </div>
-
-            <div>
-                <h3 class="font-semibold">Kursus</h3>
-                <ul class="text-sm mt-2 space-y-1">
-                    <li>Dasar Pemrograman</li>
-                    <li>JavaScript</li>
-                    <li>Python</li>
-                </ul>
-            </div>
-
-            <div>
-                <h3 class="font-semibold">Belajar</h3>
-                <ul class="text-sm mt-2 space-y-1">
-                    <li>Artikel</li>
-                    <li>Video</li>
-                    <li>Kuis</li>
-                </ul>
-            </div>
-
-            <div>
-                <h3 class="font-semibold">Perusahaan</h3>
-                <ul class="text-sm mt-2 space-y-1">
-                    <li>Tentang</li>
-                    <li>Kontak</li>
-                    <li>Blog</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="text-center text-sm py-4 border-t border-indigo-700">
+    <footer class="bg-gradient-to-r from-blue-400 to-blue-600 text-white mt-10">
+        <div class="text-center text-sm py-4 border-t border-blue-700">
             © 2026 MicroLearn. Hak cipta dilindungi.
         </div>
     </footer>
 
+<script>
+    function toggleProfile() {
+        document
+            .getElementById('profileDropdown')
+            .classList.toggle('hidden');
+    }
+
+    window.addEventListener('click', function(e) {
+        const dropdown = document.getElementById('profileDropdown');
+
+        if (!e.target.closest('.relative')) {
+            dropdown.classList.add('hidden');
+        }
+    });
+</script>
 </body>
 </html>

@@ -63,7 +63,7 @@
     <div class="container d-flex justify-content-center align-items-center vh-100">
         <div class="card login-card p-4 shadow-lg" style="width: 420px;">
             <div class="text-center mb-4">
-                <div class="login-brand mx-auto mb-3"><img src="{{ asset('images/logo.png') }}" alt="Logo" class="img-fluid"></div>
+                <div class="login-brand mx-auto mb-3"><img src="{{ asset('logo.jpg') }}" alt="Logo" class="img-fluid"></div>
                 <h3 class="fw-bold text-white">Selamat Datang</h3>
                 <p class="text-white mb-0">Masuk untuk melanjutkan dan kelola konten pembelajaran Anda.</p>
             </div>
@@ -83,7 +83,7 @@
 
             <div class="text-center text-white mt-4 login-footer">
                 <p class="mb-1">Belum punya akun?</p>
-                <a href="#">Hubungi administrator</a>
+                <a href="{{ route('register') }}">Daftar sekarang</a>
             </div>
         </div>
     </div>

@@ -18,8 +18,10 @@ class MateriController extends Controller
 {
         public function index()
         {
+            $bookmarkedMateriIds = Auth::user()->bookmarks()->pluck('materi_id')->toArray();
+
             $materis = Materi::with('user')->orderBy('created_at', 'asc')->get();
-            return view('content.materi', compact('materis'));
+            return view('content.materi', compact('materis', 'bookmarkedMateriIds'));
         }
     
         public function show($id)

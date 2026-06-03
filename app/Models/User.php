@@ -90,4 +90,8 @@ public function isAdmin() {
     return $this->role === 'admin';
 }
 
+public function bookmarks() {
+    return $this->hasMany(Bookmarks::class);
+}
+
 }

@@ -12,11 +12,12 @@
     {{-- Navbar --}}
     <nav class="bg-white shadow">
         <div class="container mx-auto px-6 py-4 relative flex justify-between items-center">
+            <img src="{{ asset('logo.jpg') }}" alt="Logo" class="w-10 h-10 mr-3">
             <a href="{{ route('home') }}"
             style="text-decoration: none; text-color: blue; text-font-weight: bold; font-size: 2rem;">
                 MicroLearn
             </a>
-             <ul class="absolute left-1/2 transform -translate-x-1/2 flex space-x-6 text-gray-700 items-center">
+            <ul class="flex space-x-6 ml-auto mr-4">
                 <li><a href="{{ route('home') }}" class="hover:text-blue-600">Beranda</a></li>
                 <li><a href="{{ route('materi.index') }}" class="hover:text-blue-600">Materi Pembelajaran</a></li>
                 <li><a href="{{ route('progress') }}" class="hover:text-blue-600">Progress Pembelajaran</a></li>
@@ -34,6 +35,7 @@
                     </div>
                     <div class="py-2">
                         <a href="{{ route('profile') }}" class="block px-4 py-2 text-sm hover:bg-gray-100">Profil</a>
+                        <a href="{{ route('bookmarks') }}" class="block px-4 py-2 text-sm hover:bg-gray-100">Materi Tersimpan</a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit" class="w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Keluar</button>

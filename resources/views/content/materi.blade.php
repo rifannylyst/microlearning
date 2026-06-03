@@ -53,8 +53,12 @@
 
                         <div class="flex gap-3">
                             <a href="{{ route('materi.konten', $item->id) }}" class="bi bi-pencil"></a>
-                            <button class="bi bi-bookmark"></button>
-                            <button class="bi bi-camera-video"></button>
+                                <form action ="{{ route('bookmark.toggle', $item->id) }}" method="POST">
+                                @csrf
+                                <button type="submit">
+                                    <i class="bi {{ in_array($item->id, $bookmarkedMateriIds) ? 'bi-bookmark-fill text-blue-500' : 'bi-bookmark text-gray-500' }}"></i>
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>

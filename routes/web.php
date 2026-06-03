@@ -8,6 +8,8 @@ Route::get('/', function () {
 
 Route::get('/login', [App\Http\Controllers\LoginController::class, 'index'])->name('login');
 Route::post('/login', [App\Http\Controllers\LoginController::class, 'login']);
+Route::get('/register', [App\Http\Controllers\LoginController::class, 'register'])->name('register');
+Route::post('/register', [App\Http\Controllers\LoginController::class, 'registerUser']);
 
 Route::middleware('auth')->group(function() {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -23,7 +25,10 @@ Route::middleware('auth')->group(function() {
     Route::get('/progress', [App\Http\Controllers\MateriController::class, 'pembelajaranSaya'])->name('progress');
     //Route::get('/search', [App\Http\Controllers\UtilsController::class, 'search'])->name('search');
     Route::get('/profile', [App\Http\Controllers\HomeController::class, 'profile'])->name('profile');
-});
+    Route::put('/profile', [App\Http\Controllers\HomeController::class, 'updateProfile'])->name('profile.update');
+    Route::post('/bookmark/{materiId}', [App\Http\Controllers\HomeController::class, 'toggleBookmark'])->name('bookmark.toggle');
+    Route::get('/bookmarks', [App\Http\Controllers\HomeController::class, 'bookmarks'])->name('bookmarks');
+    });
 
 Route::middleware(['auth', 'admin'])
 ->prefix('admin')

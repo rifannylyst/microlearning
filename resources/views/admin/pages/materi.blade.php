@@ -12,15 +12,34 @@
         <div class="bg-white p-4 rounded shadow">
             <h3 class="text-lg font-semibold text-gray-800 mb-2">{{ $materi->judul }}</h3>
             <p class="text-gray-600 mb-4">{{ Str::limit($materi->deskripsi, 100) }}</p>
-            <a href="{{ route('admin.materi.detail-materi', $materi->id) }}" class="text-blue-500 hover:underline">Lihat Konten</a>
+            {{-- Lihat Konten --}}
+            <a href="{{ route('admin.materi.detail-materi', $materi->id) }}"
+            class="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg transition"
+            title="Lihat Konten">
+
+                <i class="bi bi-eye">Lihat Konten</i>
+            </a>
             <div class="mt-4">
-            <button onclick="openModal('editModal-{{ $materi->id }}')" class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600 transition ml-2">Edit</button>
-                <form action="{{ route('admin.materi.destroy', $materi->id) }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus materi ini?')">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition ml-2">Hapus</button>
-                </form>
-            </div>
+            <button onclick="openModal('editModal-{{ $materi->id }}')" class="bg-yellow-500 hover:bg-yellow-600 text-white p-2 rounded-lg transition" title="Edit Materi">
+                <i class="bi bi-pencil-square">Edit Materi</i>
+            </button>
+            <form action="{{ route('admin.materi.destroy', $materi->id) }}"
+                method="POST"
+                class="inline"
+                onsubmit="return confirm('Apakah Anda yakin ingin menghapus materi ini?')">
+
+                @csrf
+                @method('DELETE')
+
+                <button
+                    type="submit"
+                    class="bg-red-500 hover:bg-red-600 text-white p-2 rounded-lg transition"
+                    title="Hapus Materi">
+
+                    <i class="bi bi-trash">Hapus Materi</i>
+                </button>
+
+            </form>
         </div>
         @endforeach
     </div>

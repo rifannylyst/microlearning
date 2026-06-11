@@ -13,10 +13,10 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         \App\Models\User::create([
-            'name' => 'Fadhli',
-            'email' => 'fadhli@gmail.com',
-            'password' => 'fadhli123',
-            'role' => 'user',
+            'name' => 'admin',
+            'email' => 'admin@gmail.com',
+            'password' => 'admin123',
+            'role' => 'admin',
         ]);
     }
 }

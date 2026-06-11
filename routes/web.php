@@ -28,6 +28,10 @@ Route::middleware('auth')->group(function() {
     Route::put('/profile', [App\Http\Controllers\HomeController::class, 'updateProfile'])->name('profile.update');
     Route::post('/bookmark/{materiId}', [App\Http\Controllers\HomeController::class, 'toggleBookmark'])->name('bookmark.toggle');
     Route::get('/bookmarks', [App\Http\Controllers\HomeController::class, 'bookmarks'])->name('bookmarks');
+    Route::get('/evaluasi', [App\Http\Controllers\HomeController::class, 'evaluasi'])->name('evaluasi');
+    Route::get('/evaluasi/{evaluasi}', [App\Http\Controllers\EvaluasiController::class, 'show'])->name('siswa.evaluasi.show');
+    Route::post('/evaluasi/{evaluasi}/submit', [App\Http\Controllers\EvaluasiController::class, 'submit'])->name('siswa.evaluasi.submit');
+    Route::get('/evaluasi/{evaluasi}/hasil', [App\Http\Controllers\EvaluasiController::class, 'hasil'])->name('siswa.evaluasi.hasil');
     });
 
 Route::middleware(['auth', 'admin'])
@@ -54,4 +58,15 @@ Route::middleware(['auth', 'admin'])
     Route::get('/pengguna', [App\Http\Controllers\AdminController::class, 'pengguna'])->name('admin.pengguna');
     Route::get('/progress', [App\Http\Controllers\AdminController::class, 'progress'])->name('admin.progress');
     Route::get('/progress/{id}', [App\Http\Controllers\AdminController::class, 'detailProgress'])->name('admin.progress.detail');
+    Route::get('/evaluasi', [App\Http\Controllers\EvaluasiController::class, 'index'])->name('admin.evaluasi');
+    Route::post('/evaluasi', [App\Http\Controllers\EvaluasiController::class, 'store'])->name('admin.evaluasi.store');
+    Route::put('/evaluasi/{evaluasi}', [App\Http\Controllers\EvaluasiController::class, 'update'])->name('admin.evaluasi.update');
+    Route::delete('/evaluasi/{evaluasi}', [App\Http\Controllers\EvaluasiController::class,'destroy'] )->name('admin.evaluasi.destroy');
+    Route::get('/evaluasi/{evaluasi}/soal', [App\Http\Controllers\EvaluasiController::class, 'indexSoal'])->name('admin.evaluasi.soal');
+    Route::post('/soal', [App\Http\Controllers\EvaluasiController::class, 'storeSoal'])->name('admin.evaluasi.soal.store');
+    Route::put('/soal/{soal}', [App\Http\Controllers\EvaluasiController::class, 'updateSoal'])->name('admin.evaluasi.soal.update');
+    Route::delete('/soal/{soal}', [App\Http\Controllers\EvaluasiController::class, 'destroySoal'])->name('admin.evaluasi.soal.destroy');
+    Route::get('/evaluasi/hasil', [App\Http\Controllers\EvaluasiController::class, 'adminHasil'])->name('admin.evaluasi.hasil');
+    Route::put('/evaluasi/nilai/{id}', [App\Http\Controllers\EvaluasiController::class, 'nilai'])->name('admin.evaluasi.nilai');
+    Route::get('/evaluasi/hasil/{user}', [App\Http\Controllers\EvaluasiController::class, 'detail'])->name('admin.evaluasi.detail');
     });

@@ -109,9 +109,7 @@
                 <h4 class="text-md font-semibold text-gray-800 mb-1">
                     {{ $quiz->judul }}
                 </h4>
-                <a href="{{ route('admin.quiz.detail-quiz', $quiz->id) }}" class="text-blue-500 hover:underline">
-                    Lihat Detail Quiz
-                </a>
+                
                 @if($quiz->pertanyaan->count() > 0)
                     <p class="text-sm text-gray-500 mt-1">
                         {{ $quiz->pertanyaan->count() }} pertanyaan
@@ -119,6 +117,9 @@
                 @endif
                 <!-- BUTTON -->
                 <div class="flex gap-2">
+                    <a href="{{ route('admin.quiz.detail-quiz', $quiz->id) }}" class="bg-blue-500 hover:bg-blue-600 text-white p-2 px-3 rounded transition">
+                    <i class="bi bi-eye"></i>
+                </a>
                     <!-- EDIT -->
                     <button onclick="editQuizModal( '{{ $quiz->id }}', '{{ $quiz->judul }}' )" class="bg-yellow-500 text-white px-3 py-2 rounded hover:bg-yellow-600 transition">
                         <i class="bi bi-pencil-fill"></i>

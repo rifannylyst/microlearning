@@ -1,3 +1,9 @@
-<div class="bg-white text-center p-3 text-sm text-gray-500 border-t">
-    © 2026 - Dashboard Laravel
-</div>
+<footer class="bg-white border-t">
+
+    <div class="text-center py-4 text-sm text-slate-500">
+
+        © {{ date('Y') }} MicroLearn
+
+    </div>
+
+</footer>

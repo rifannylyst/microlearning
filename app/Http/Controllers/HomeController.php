@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Materi;
 use App\Models\Bookmarks;
+use App\Models\Evaluasi;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -67,4 +68,12 @@ class HomeController extends Controller
 
         return view('content.bookmarks', compact('materis'));
     }
+
+    public function evaluasi(){
+         $evaluasis = Evaluasi::withCount('soal')->latest()->get();;
+
+        return view('content.evaluasi', compact('evaluasis'));
+    }
+
+
 }

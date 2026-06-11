@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="bg-slate-100 min-h-screen py-8 px-6">
+<div class="container py-4">
 
     <div class="bg-white p-6 rounded-4xl shadow">
 

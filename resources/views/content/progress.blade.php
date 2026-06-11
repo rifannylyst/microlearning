@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="min-h-screen bg-[#eef6ff] flex flex-col">
+<div class="container py-4">
 
     <!-- HEADER -->
     <section class="border-b border-blue-200 bg-white">

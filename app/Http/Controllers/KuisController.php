@@ -71,6 +71,18 @@ class KuisController extends Controller
 
    public function jawabanStore(Request $request)
     {
+        $sudahAda = Jawaban::where(
+            'pertanyaan_id',
+            $request->pertanyaan_id
+        )->exists();
+
+        if ($sudahAda) {
+            return back()->with(
+                'error',
+                'Jawaban untuk pertanyaan ini sudah ada. Silakan edit jawaban yang sudah tersedia.'
+            );
+        }
+
         // CEK JIKA PILIHAN GANDA
         if ($request->a || $request->b || $request->c || $request->d) {
 
@@ -125,9 +137,23 @@ class KuisController extends Controller
             'is_benar' => 'required|boolean',
         ]);
 
+        // Jika jawaban ini dipilih sebagai jawaban benar
+        if ($validatedData['is_benar']) {
+
+            Jawaban::where(
+                'pertanyaan_id',
+                $jawaban->pertanyaan_id
+            )->update([
+                'is_benar' => 0
+            ]);
+        }
+
         $jawaban->update($validatedData);
 
-        return back()->with('success', 'Jawaban berhasil diperbarui.');
+        return back()->with(
+            'success',
+            'Jawaban berhasil diperbarui.'
+        );
     }
 
     public function jawabanDelete($id)

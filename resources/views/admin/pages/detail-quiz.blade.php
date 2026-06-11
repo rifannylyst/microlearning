@@ -83,8 +83,10 @@
                             </button>
 
                         </form>
-
-                        <button
+                        
+                        @if ($pertanyaan->jawaban->isEmpty())
+                            
+                      <button
                             onclick="tambahJawaban(
                                 '{{ $pertanyaan->id }}',
                                 '{{ $pertanyaan->tipe }}'
@@ -95,7 +97,7 @@
                             Tambah Jawaban
 
                         </button>
-
+                        @endif
                     </div>
 
                     <!-- JAWABAN -->

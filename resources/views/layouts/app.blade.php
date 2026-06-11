@@ -7,7 +7,7 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
 
     {{-- Navbar --}}
     <nav class="bg-white shadow">
@@ -21,6 +21,7 @@
                 <li><a href="{{ route('home') }}" class="hover:text-blue-600">Beranda</a></li>
                 <li><a href="{{ route('materi.index') }}" class="hover:text-blue-600">Materi Pembelajaran</a></li>
                 <li><a href="{{ route('progress') }}" class="hover:text-blue-600">Progress Pembelajaran</a></li>
+                <li><a href="{{ route('evaluasi') }}" class="hover:text-blue-600">Evaluasi Pembelajaran</a></li>
             </ul>
             <div class="relative">
                 <button onclick="toggleProfile()" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded">
@@ -47,10 +48,11 @@
     </nav>
 
     {{-- Content --}}
-    @yield('content')
+    <main class="flex-1">
+        @yield('content')
+    </main>
 
-    {{-- Footer --}}
-    <footer class="bg-gradient-to-r from-blue-400 to-blue-600 text-white mt-10">
+    <footer class="bg-gradient-to-r from-blue-400 to-blue-600 text-white">
         <div class="text-center text-sm py-4 border-t border-blue-700">
             © 2026 MicroLearn. Hak cipta dilindungi.
         </div>

@@ -12,7 +12,9 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo pdo_pgsql mbstring exif pcntl bcmath gd
 
 # Aktifkan mod_rewrite dan bersihkan modul MPM agar tidak bentrok
-RUN a2dismod mpm_event mpm_worker && a2enmod mpm_prefork rewrite
+RUN sed -i 's/LoadModule mpm_event_module/#LoadModule mpm_event_module/g' /etc/apache2/httpd.conf && \
+    sed -i 's/#LoadModule mpm_prefork_module/LoadModule mpm_prefork_module/g' /etc/apache2/httpd.conf && \
+    a2enmod rewrite
 
 # Set folder kerja
 WORKDIR /var/www/html

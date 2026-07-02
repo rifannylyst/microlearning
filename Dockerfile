@@ -11,8 +11,8 @@ RUN apt-get update && apt-get install -y \
     git \
     && docker-php-ext-install pdo pdo_pgsql mbstring exif pcntl bcmath gd
 
-# Aktifkan mod_rewrite Apache (wajib untuk routing Laravel)
-RUN a2enmod rewrite
+# Aktifkan mod_rewrite dan bersihkan modul MPM agar tidak bentrok
+RUN a2dismod mpm_event mpm_worker && a2enmod mpm_prefork rewrite
 
 # Set folder kerja
 WORKDIR /var/www/html

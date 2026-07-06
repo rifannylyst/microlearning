@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 @section('content')
-   <h2 class="text-2xl font-semibold text-gray-800 mb-6">Daftar Pengguna</h2>
-   <div class="bg-white shadow-md rounded-lg p-6">
+   <h2 class="text-2xl font-extrabold text-slate-800 mb-6 tracking-tight">Daftar Pengguna</h2>
+   <div class="bg-white shadow-sm border border-slate-200/60 rounded-2xl p-6">
         <table class="min-w-full table-auto">
              <thead>
                 <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
@@ -17,14 +17,20 @@
                     <td class="py-3 px-6 text-left">{{ $user->name }}</td>
                     <td class="py-3 px-6 text-left">{{ $user->email }}</td>
                     <td class="py-3 px-6 text-left">{{ $user->role }}</td>
-                    <td class="py-3 px-6 text-center">
-                        <a href="#" class="text-blue-500 hover:underline">Edit</a>
-                        <form action="#" method="POST" class="inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="text-red-500 hover:underline" onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">Hapus</button>
-                        </form>
-                    </td>
+                     <td class="py-3 px-6 text-center">
+                        <div class="flex items-center justify-center gap-2">
+                            <a href="#" class="w-8 h-8 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-600 border border-blue-200/30 flex items-center justify-center transition-all duration-200 shadow-sm" title="Edit Pengguna">
+                                <i class="bi bi-pencil-square text-sm"></i>
+                            </a>
+                            <form action="#" method="POST" class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 border border-red-200/30 flex items-center justify-center transition-all duration-200 shadow-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">
+                                    <i class="bi bi-trash text-sm"></i>
+                                </button>
+                            </form>
+                        </div>
+                     </td>
                 </tr>
                 @endforeach
              </tbody>

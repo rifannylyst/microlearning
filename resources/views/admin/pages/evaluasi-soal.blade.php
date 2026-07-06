@@ -87,25 +87,27 @@
 
                     <td>
 
-                        <button
-                            class="btn btn-warning btn-sm btn-edit"
+                        <div class="flex items-center gap-2">
+                            <button
+                                type="button"
+                                class="btn-edit w-8 h-8 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-600 border border-amber-200/30 flex items-center justify-center transition-all duration-200 shadow-sm"
+                                data-id="{{ $soal->id }}"
+                                data-soal="{{ $soal->soal }}"
+                                data-tipe="{{ $soal->tipe }}"
+                                data-kunci="{{ $soal->kunci_jawaban }}"
+                                data-opsi='@json($soal->opsi_jawaban)'
+                                title="Edit Soal">
+                                <i class="bi bi-pencil-square text-sm"></i>
+                            </button>
 
-                            data-id="{{ $soal->id }}"
-                            data-soal="{{ $soal->soal }}"
-                            data-tipe="{{ $soal->tipe }}"
-                            data-kunci="{{ $soal->kunci_jawaban }}"
-
-                            data-opsi='@json($soal->opsi_jawaban)'>
-
-                            Edit
-                        </button>
-
-                        <button
-                            class="btn btn-danger btn-sm btn-delete"
-                            data-id="{{ $soal->id }}">
-
-                            Hapus
-                        </button>
+                            <button
+                                type="button"
+                                class="btn-delete w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 border border-red-200/30 flex items-center justify-center transition-all duration-200 shadow-sm"
+                                data-id="{{ $soal->id }}"
+                                title="Hapus Soal">
+                                <i class="bi bi-trash text-sm"></i>
+                            </button>
+                        </div>
 
                     </td>
 

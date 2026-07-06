@@ -8,6 +8,216 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    --font-sans: 'Poppins', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+*, ::before, ::after {
+    font-family: 'Poppins', sans-serif !important;
+}
+
+code, kbd, pre, samp, .font-mono, .font-mono * {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+}
+
+a {
+    color: inherit;
+    text-decoration: none !important;
+}
+a:hover {
+    color: inherit;
+    text-decoration: none !important;
+}
+
+body {
+    font-size: 0.875rem !important; /* 14px default body size */
+    color: #475569;
+    line-height: 1.5rem !important;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Headings Typography Scale */
+h1, .h1 {
+    font-size: 1.5rem !important; /* 24px */
+    font-weight: 700 !important;
+    color: #1e293b;
+    letter-spacing: -0.02em !important;
+}
+
+h2, .h2 {
+    font-size: 1.25rem !important; /* 20px */
+    font-weight: 600 !important;
+    color: #1e293b;
+    letter-spacing: -0.01em !important;
+}
+
+h3, .h3 {
+    font-size: 1rem !important; /* 16px */
+    font-weight: 600 !important;
+    color: #1e293b;
+}
+
+h4, .h4, h5, .h5, h6, .h6 {
+    font-size: 0.875rem !important; /* 14px */
+    font-weight: 600 !important;
+    color: #334155;
+}
+
+/* Form elements styling to match typography */
+label {
+    font-size: 0.8125rem !important; /* 13px clean label */
+    font-weight: 500 !important;
+    color: #64748b !important;
+    margin-bottom: 0.375rem !important;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+    font-size: 0.8125rem !important; /* 13px clean input text */
+    color: #334155 !important;
+    border-radius: 0.5rem !important; /* 8px rounded */
+    border: 1px solid #cbd5e1 !important;
+    padding: 0.5rem 0.75rem !important;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+select:focus,
+textarea:focus {
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1) !important;
+}
+
+/* Table styling overrides for clean dashboard lists */
+table {
+    width: 100% !important;
+}
+th {
+    font-size: 0.75rem !important; /* 12px uppercase header */
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    color: #64748b !important;
+    background-color: #f8fafc !important;
+    padding: 0.75rem 1rem !important;
+    border-bottom: 2px solid #f1f5f9 !important;
+}
+td {
+    font-size: 0.8125rem !important; /* 13px clean readable text */
+    color: #475569 !important;
+    padding: 0.875rem 1rem !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+}
+tr:hover td {
+    background-color: #f8fafc !important;
+}
+
+/* Modern Button Styling Override */
+button, 
+.btn,
+a.bg-blue-500, a.bg-yellow-500, a.bg-red-500, a.bg-green-500, a.bg-gray-500,
+button.bg-blue-500, button.bg-yellow-500, button.bg-red-500, button.bg-green-500, button.bg-gray-500 {
+    border-radius: 0.5rem !important; /* 8px rounded for elegant and minimal look */
+    font-weight: 500 !important; /* Clean font weight, not too bold */
+    font-size: 0.75rem !important; /* 12px font size - clean and small */
+    letter-spacing: 0.015em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    padding: 0.4rem 0.8rem !important; /* Elegant compact height */
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+    text-decoration: none !important;
+    line-height: 1.25rem !important;
+}
+
+/* Extra compact buttons for tiny actions (e.g. edit/delete options, btn-sm) */
+button.px-2.py-1, 
+button[class*="px-2"][class*="py-1"],
+a[class*="px-2"][class*="py-1"],
+.btn-sm,
+button.btn-sm,
+a.btn-sm {
+    padding: 0.25rem 0.5rem !important; /* Tiny padding */
+    font-size: 0.6875rem !important; /* 11px font size */
+    border-radius: 0.375rem !important; /* 6px rounded */
+    gap: 0.25rem;
+    line-height: 1rem !important;
+}
+
+button:hover,
+.btn:hover,
+a.bg-blue-500:hover, a.bg-yellow-500:hover, a.bg-red-500:hover, a.bg-green-500:hover, a.bg-gray-500:hover,
+button.bg-blue-500:hover, button.bg-yellow-500:hover, button.bg-red-500:hover, button.bg-green-500:hover, button.bg-gray-500:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+    filter: brightness(97%);
+}
+
+button:active,
+.btn:active,
+a.bg-blue-500:active, a.bg-yellow-500:active, a.bg-red-500:active, a.bg-green-500:active, a.bg-gray-500:active,
+button.bg-blue-500:active, button.bg-yellow-500:active, button.bg-red-500:active, button.bg-green-500:active, button.bg-gray-500:active {
+    transform: scale(0.97) !important; /* Tactile click shrink effect */
+}
+
+/* Specific solid button colors - no gradients */
+.btn-primary, button.bg-blue-500, a.bg-blue-500 {
+    background-color: #2563eb !important; /* Solid royal blue */
+    border: 1px solid #1d4ed8 !important;
+    color: white !important;
+}
+.btn-primary:hover, button.bg-blue-500:hover, a.bg-blue-500:hover {
+    background-color: #1d4ed8 !important;
+    border-color: #1e40af !important;
+}
+
+.btn-success, button.bg-green-500, a.bg-green-500 {
+    background-color: #16a34a !important; /* Solid forest green */
+    border: 1px solid #15803d !important;
+    color: white !important;
+}
+.btn-success:hover, button.bg-green-500:hover, a.bg-green-500:hover {
+    background-color: #15803d !important;
+    border-color: #166534 !important;
+}
+
+.btn-danger, button.bg-red-500, a.bg-red-500 {
+    background-color: #dc2626 !important; /* Solid crimson red */
+    border: 1px solid #b91c1c !important;
+    color: white !important;
+}
+.btn-danger:hover, button.bg-red-500:hover, a.bg-red-500:hover {
+    background-color: #b91c1c !important;
+    border-color: #991b1b !important;
+}
+
+.btn-warning, button.bg-yellow-500, a.bg-yellow-500 {
+    background-color: #ea580c !important; /* Solid amber-orange */
+    border: 1px solid #c2410c !important;
+    color: white !important;
+}
+.btn-warning:hover, button.bg-yellow-500:hover, a.bg-yellow-500:hover {
+    background-color: #c2410c !important;
+    border-color: #9a3412 !important;
+}
+
+.btn-secondary, button.bg-gray-500, a.bg-gray-500 {
+    background-color: #f1f5f9 !important; /* Solid light slate */
+    border: 1px solid #e2e8f0 !important;
+    color: #475569 !important;
+}
+.btn-secondary:hover, button.bg-gray-500:hover, a.bg-gray-500:hover {
+    background-color: #e2e8f0 !important;
+    color: #1e293b !important;
+    border-color: #cbd5e1 !important;
+}
+
+

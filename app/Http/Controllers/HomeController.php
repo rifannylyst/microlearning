@@ -70,7 +70,12 @@ class HomeController extends Controller
     }
 
     public function evaluasi(){
-         $evaluasis = Evaluasi::withCount('soal')->latest()->get();;
+         $evaluasis = Evaluasi::withCount('soal')
+             ->with(['hasil' => function ($query) {
+                 $query->where('user_id', auth()->id());
+             }])
+             ->latest()
+             ->get();
 
         return view('content.evaluasi', compact('evaluasis'));
     }

@@ -16,7 +16,6 @@ class KontenMateri extends Model
         'link',
         'deskripsi',
         'durasi',
-        'urutan',
     ];
 
     public function materi() {

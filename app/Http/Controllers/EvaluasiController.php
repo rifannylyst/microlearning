@@ -58,7 +58,7 @@ class EvaluasiController extends Controller
 
     public function indexSoal(Evaluasi $evaluasi)
     {
-        $soals = $evaluasi->soal()->latest()->get();
+        $soals = $evaluasi->soal()->get();
 
         return view('admin.pages.evaluasi-soal',compact('evaluasi', 'soals'));
     }

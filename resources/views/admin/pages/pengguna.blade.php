@@ -2,6 +2,21 @@
 @section('content')
    <h2 class="text-2xl font-extrabold text-slate-800 mb-6 tracking-tight">Daftar Pengguna</h2>
    <div class="bg-white shadow-sm border border-slate-200/60 rounded-2xl p-6">
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <!-- space for visual alignment -->
+            </div>
+            <div class="flex flex-wrap gap-2.5">
+                <button
+                    type="button"
+                    class="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2.5 rounded-xl text-xs font-semibold shadow-sm hover:shadow shadow-blue-500/10 transition-all duration-200"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalTambah">
+                    <i class="bi bi-plus-lg"></i>
+                    <span>Tambah Pengguna</span>
+                </button>
+            </div>
+        </div>
         <table class="min-w-full table-auto">
              <thead>
                 <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
@@ -19,16 +34,12 @@
                     <td class="py-3 px-6 text-left">{{ $user->role }}</td>
                      <td class="py-3 px-6 text-center">
                         <div class="flex items-center justify-center gap-2">
-                            <a href="#" class="w-8 h-8 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-600 border border-blue-200/30 flex items-center justify-center transition-all duration-200 shadow-sm" title="Edit Pengguna">
-                                <i class="bi bi-pencil-square text-sm"></i>
-                            </a>
-                            <form action="#" method="POST" class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 border border-red-200/30 flex items-center justify-center transition-all duration-200 shadow-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">
-                                    <i class="bi bi-trash text-sm"></i>
-                                </button>
-                            </form>
+                            <button type="button" class="w-8 h-8 rounded-lg bg-yellow-50 hover:bg-yellow-100 text-yellow-600 border border-yellow-200/30 flex items-center justify-center transition-all duration-200 shadow-sm" onclick="editPengguna({{ $user->id }}, '{{ $user->name }}', '{{ $user->email }}', '{{ $user->role }}')">
+                                <i class="bi bi-pencil text-sm"></i>
+                            </button>
+                            <button type="button" class="w-8 h-8 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 border border-red-200/30 flex items-center justify-center transition-all duration-200 shadow-sm" onclick="hapusPengguna({{ $user->id }})">
+                                <i class="bi bi-trash text-sm"></i>
+                            </button>
                         </div>
                      </td>
                 </tr>
@@ -36,4 +47,166 @@
              </tbody>
         </table>
     </div>
+
+<div class="modal fade" id="modalTambah" tabindex="-1">
+    <div class="modal-dialog">
+        <form action="{{ route('admin.pengguna.store') }}" method="POST">
+            @csrf
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Pengguna</h5>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label>Nama</label>
+                        <input
+                            type="text"
+                            name="name"
+                            class="form-control"
+                            required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Email</label>
+                        <input
+                            type="email"
+                            name="email"
+                            class="form-control"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Password</label>
+                        <input
+                            type="password"
+                            name="password"
+                            class="form-control"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Role</label>
+                        <select
+                            name="role"
+                            class="form-control"
+                            required>
+                            <option value="admin">Admin</option>
+                            <option value="user">User</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+                        Batal
+                    </button>
+
+                    <button class="btn btn-primary">
+                        Simpan
+                    </button>
+
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal fade" id="modalEdit" tabindex="-1">
+    <div class="modal-dialog">
+        <form id="formEdit" method="POST">
+
+            @csrf
+            @method('PUT')
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5>Edit Pengguna</h5>
+
+                    <button
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <input
+                        type="text"
+                        id="editName"
+                        name="name"
+                        class="form-control mb-3">
+
+                    <input
+                        type="email"
+                        id="editEmail"
+                        name="email"
+                        class="form-control mb-3">
+
+                    <input
+                        type="password"
+                        id="editPassword"
+                        name="password"
+                        class="form-control mb-3">
+
+                    <select
+                        id="editRole"
+                        name="role"
+                        class="form-control mb-3">
+                        <option value="admin">Admin</option>
+                        <option value="user">User</option>
+                    </select>
+                </div>
+
+                <div class="modal-footer">
+
+                    <button class="btn btn-primary">
+                        Update
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+</div>
+<script>
+    function editPengguna(id, name, email, role) {
+        const formEdit = document.getElementById('formEdit');
+        formEdit.action = `/admin/pengguna/${id}`;
+        document.getElementById('editName').value = name;
+        document.getElementById('editEmail').value = email;
+        document.getElementById('editRole').value = role;
+        const modalEdit = new bootstrap.Modal(document.getElementById('modalEdit'));
+        modalEdit.show();
+    }
+
+    function hapusPengguna(id) {
+        if (confirm('Apakah Anda yakin ingin menghapus pengguna ini?')) {
+            const formDelete = document.createElement('form');
+            formDelete.method = 'POST';
+            formDelete.action = `/admin/pengguna/${id}`;
+            formDelete.innerHTML = `
+                @csrf
+                @method('DELETE')
+            `;
+            document.body.appendChild(formDelete);
+            formDelete.submit();
+        }
+    }
+</script>
 @endsection

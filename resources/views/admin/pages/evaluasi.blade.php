@@ -10,7 +10,7 @@
     <div class="flex flex-wrap gap-2.5">
         <a href="{{ route('admin.evaluasi.hasil') }}" class="flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-700 px-4 py-2.5 rounded-xl text-xs font-semibold border border-slate-200/60 transition-all duration-200 no-underline shadow-sm">
             <i class="bi bi-file-earmark-text text-sm"></i>
-            <span>Soal</span>
+            <span>Hasil</span>
         </a>
         <button
             type="button"

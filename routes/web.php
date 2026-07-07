@@ -46,7 +46,7 @@ Route::middleware(['auth', 'admin'])
     Route::delete('/materi/{id}', [App\Http\Controllers\AdminController::class, 'materiDelete'])->name('admin.materi.destroy');
     Route::put('/materi/{id}/konten/{kontenId}', [App\Http\Controllers\AdminController::class, 'kontenUpdate'])->name('admin.materi.konten.update');
     Route::delete('/materi/{id}/konten/{kontenId}', [App\Http\Controllers\AdminController::class, 'kontenDelete'])->name('admin.materi.konten.delete');
-    Route::get('materi/{id}/next-urutan/{tipe}', [App\Http\Controllers\AdminController::class, 'getNextUrutan'])->name('admin.materi.konten.next-urutan');
+    //Route::get('materi/{id}/next-urutan/{tipe}', [App\Http\Controllers\AdminController::class, 'getNextUrutan'])->name('admin.materi.konten.next-urutan');
     Route::post('/materi/{id}/quiz', [App\Http\Controllers\KuisController::class, 'tambahQuiz'])->name('admin.materi.quiz.store');
     Route::get('/quiz/{id}', [App\Http\Controllers\KuisController::class, 'detailQuiz'])->name('admin.quiz.detail-quiz');
     Route::post('/pertanyaan/{quizId}', [App\Http\Controllers\KuisController::class, 'pertanyaanStore'])->name('admin.pertanyaan.store');
@@ -56,6 +56,9 @@ Route::middleware(['auth', 'admin'])
     Route::put('/jawaban/{id}', [App\Http\Controllers\KuisController::class, 'jawabanUpdate'])->name('admin.jawaban.update');
     Route::delete('/jawaban/{id}', [App\Http\Controllers\KuisController::class, 'jawabanDelete'])->name('admin.jawaban.destroy');
     Route::get('/pengguna', [App\Http\Controllers\AdminController::class, 'pengguna'])->name('admin.pengguna');
+    Route::post('/pengguna', [App\Http\Controllers\AdminController::class, 'penggunaStore'])->name('admin.pengguna.store');
+    Route::put('/pengguna/{id}', [App\Http\Controllers\AdminController::class, 'penggunaUpdate'])->name('admin.pengguna.update');
+    Route::delete('/pengguna/{id}', [App\Http\Controllers\AdminController::class, 'penggunaDelete'])->name('admin.pengguna.destroy');
     Route::get('/progress', [App\Http\Controllers\AdminController::class, 'progress'])->name('admin.progress');
     Route::get('/progress/{id}', [App\Http\Controllers\AdminController::class, 'detailProgress'])->name('admin.progress.detail');
     Route::get('/evaluasi', [App\Http\Controllers\EvaluasiController::class, 'index'])->name('admin.evaluasi');

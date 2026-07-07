@@ -30,7 +30,6 @@ class AdminController extends Controller
         $validatedData = $request->validate([
             'judul' => 'required|string|max:255',
             'deskripsi' => 'required|string',
-            'urutan' => 'required|integer',
             'created_by' => 'required|exists:users,id',
         ]);
 
@@ -43,9 +42,9 @@ class AdminController extends Controller
     public function materiDetail($id)
     {
         $materi = Materi::with('konten_materi')->findOrFail($id);
-        $nextUrutan = (KontenMateri::where('materi_id', $id)->max('urutan') ?? 0) + 1;
+        //$nextUrutan = (KontenMateri::where('materi_id', $id)->max('urutan') ?? 0) + 1;
         $admins = User::where('role', 'admin')->get();
-        return view('admin.pages.detail-materi', compact('materi', 'nextUrutan', 'admins'));
+        return view('admin.pages.detail-materi', compact('materi', 'admins'));
     }
 
     public function materiUpdate(Request $request, $id)
@@ -55,7 +54,6 @@ class AdminController extends Controller
         $validatedData = $request->validate([
             'judul' => 'required|string|max:255',
             'deskripsi' => 'required|string',
-            'urutan' => 'required|integer',
             'created_by' => 'required|exists:users,id',
         ]);
 
@@ -81,10 +79,6 @@ class AdminController extends Controller
             'deskripsi' => 'nullable|string',
         ]);
 
-       $urutan = (KontenMateri::where('materi_id', $materiId)
-        ->where('tipe', $request->tipe)
-        ->max('urutan') ?? 0) + 1;
-
         // default null
         $path = null;
 
@@ -101,7 +95,6 @@ class AdminController extends Controller
             'link' => $request->input('link') ?? null,
             'deskripsi' => $validatedData['deskripsi'] ?? null,
             'durasi' => $validatedData['durasi'] ?? null,
-            'urutan' => $urutan,
         ]);
 
         return redirect()
@@ -114,6 +107,45 @@ class AdminController extends Controller
         return view('admin.pages.pengguna', compact('pengguna'));
     }
 
+    public function penggunaUpdate(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'role' => 'required|in:user,admin',
+        ]);
+
+        $user->update($validatedData);
+
+        return redirect()->route('admin.pengguna')->with('success', 'Pengguna berhasil diperbarui.');
+    }
+
+    public function penggunaStore(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8',
+            'role' => 'required|in:user,admin',
+        ]);
+
+        $validatedData['password'] = bcrypt($validatedData['password']);
+
+        User::create($validatedData);
+
+        return redirect()->route('admin.pengguna')->with('success', 'Pengguna berhasil ditambahkan.');
+    }
+
+    public function penggunaDelete($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect()->route('admin.pengguna')->with('success', 'Pengguna berhasil dihapus.');
+    }
+
     public function kontenUpdate(Request $request, $id){
         $konten = KontenMateri::findOrFail($id);
 
@@ -121,7 +153,6 @@ class AdminController extends Controller
             'tipe' => $request->input('tipe'),
             'deskripsi' => $request->input('deskripsi'),
             'durasi' => $request->input('durasi'),
-            'urutan' => $request->input('urutan'),
         ]);
 
         //upload file baru
@@ -143,16 +174,15 @@ class AdminController extends Controller
         return redirect()->route('admin.materi.detail-materi', $materiId)->with('success', 'Konten materi berhasil dihapus.');
     }
     
-    public function getNextUrutan($id, $tipe)
+    /*public function getNextUrutan($id, $tipe)
     {
        $lastUrutan = KontenMateri::where('materi_id', $id)
-        ->where('tipe', $tipe)
-        ->max('urutan');
+        ->where('tipe', $tipe);
 
         return response()->json([
             'nextUrutan' => ($lastUrutan ?? 0) + 1
         ]);
-    } 
+    } */
     
     public function progress()
     {

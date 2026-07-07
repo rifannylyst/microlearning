@@ -4,7 +4,7 @@
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
         <div>
             <h2 class="text-2xl font-extrabold text-slate-800 tracking-tight">Data Materi Pembelajaran</h2>
-            <p class="text-xs text-slate-400 mt-1">Kelola topik belajar, urutan materi, dan konten pembelajaran multi-format.</p>
+            <p class="text-xs text-slate-400 mt-1">Kelola topik belajar dan konten pembelajaran multi-format.</p>
         </div>
         <div class="flex flex-wrap gap-2.5">
             <button onclick="openModal('addModal')" class="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2.5 rounded-xl text-xs font-semibold shadow-sm hover:shadow shadow-blue-500/10 transition-all duration-200">
@@ -30,7 +30,7 @@
                 
                 <div class="flex justify-between items-start w-full relative z-20">
                     <span class="text-[9px] font-bold px-2 py-0.5 bg-blue-100 text-blue-700 rounded uppercase tracking-wider">
-                        Materi {{ $materi->urutan }}
+                        Materi
                     </span>
                 </div>
                 <div class="relative z-20">
@@ -97,10 +97,6 @@
                     <label for="deskripsi" class="block text-xs font-bold text-slate-600 mb-2">Deskripsi</label>
                     <textarea name="deskripsi" id="deskripsi" rows="3" class="w-full border border-slate-200 p-2.5 rounded-xl text-xs font-medium focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all" required></textarea>
                 </div>
-                <div class="mb-4">
-                    <label for="urutan" class="block text-xs font-bold text-slate-600 mb-2">Urutan</label>
-                    <input type="number" name="urutan" id="urutan" class="w-full border border-slate-200 p-2.5 rounded-xl text-xs font-medium focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all" required>
-                </div>
                 <div class="mb-5">
                     <label for="created_by" class="block text-xs font-bold text-slate-600 mb-2">Dibuat Oleh</label>
                     <select name="created_by" id="created_by" class="w-full border border-slate-200 p-2.5 rounded-xl text-xs font-medium focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all" required>
@@ -132,10 +128,6 @@
                 <div class="mb-4">
                     <label for="deskripsi" class="block text-xs font-bold text-slate-600 mb-2">Deskripsi</label>
                     <textarea name="deskripsi" id="deskripsi" rows="3" class="w-full border border-slate-200 p-2.5 rounded-xl text-xs font-medium focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all" required>{{ $materi->deskripsi }}</textarea>
-                </div>
-                <div class="mb-4">
-                    <label for="urutan" class="block text-xs font-bold text-slate-600 mb-2">Urutan</label>
-                    <input type="number" name="urutan" id="urutan" class="w-full border border-slate-200 p-2.5 rounded-xl text-xs font-medium focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10 transition-all" value="{{ $materi->urutan }}" required>
                 </div>
                 <div class="mb-5">
                     <label for="created_by" class="block text-xs font-bold text-slate-600 mb-2">Dibuat Oleh</label>

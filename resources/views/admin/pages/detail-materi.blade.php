@@ -13,7 +13,6 @@
 <div class="bg-white p-4 rounded shadow">
     <h3 class="text-lg font-semibold text-gray-800 mb-2"> {{ $materi->judul }} </h3>
     <p class="text-gray-600 mb-4"> {{ $materi->deskripsi }} </p>
-    <p class="text-sm text-gray-500"> Urutan: {{ $materi->urutan }} </p>
     <p class="text-sm text-gray-500"> Dibuat oleh: {{ $materi->user->name ?? 'Unknown' }} </p>
 
     <!-- KONTEN -->
@@ -68,9 +67,6 @@
                         {{ $konten->deskripsi }}
                     </p>
                 @endif
-                <p class="text-sm text-gray-500">
-                    Urutan: {{ $konten->urutan }}
-                </p>
                 @if($konten->durasi)
                     <p class="text-sm text-gray-500 mb-3">
                         Durasi: {{ $konten->durasi }} menit
@@ -204,14 +200,6 @@
                 <textarea name="deskripsi" rows="3" class="w-full border border-gray-300 p-2 rounded"></textarea>
             </div>
 
-            <!-- URUTAN -->
-            <div class="mb-4">
-                <label class="block text-gray-700 mb-2">
-                    Urutan
-                </label>
-                <input type="number" name="urutan" id="urutanInput" class="w-full border border-gray-300 p-2 rounded" readonly>
-            </div>
-
             <!-- DURASI -->
             <div class="mb-4">
                 <label class="block text-gray-700 mb-2">
@@ -302,13 +290,6 @@
                 </label>
 
                 <textarea name="deskripsi" id="editDeskripsi" rows="3" class="w-full border border-gray-300 p-2 rounded"></textarea>
-            </div>
-
-            <div class="mb-4">
-                <label class="block text-gray-700 mb-2">
-                    Urutan
-                </label>
-                <input type="number" name="urutan" id="editUrutan" class="w-full border border-gray-300 p-2 rounded">
             </div>
 
             <div class="mb-4">
@@ -448,7 +429,6 @@
         document.getElementById('editTipe').value = tipe;
         document.getElementById('editLink').value = link;
         document.getElementById('editDeskripsi').value = deskripsi;
-        document.getElementById('editUrutan').value = urutan;
         document.getElementById('editDurasi').value = durasi;
 
         document.getElementById('editForm').action =

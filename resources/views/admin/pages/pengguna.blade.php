@@ -85,21 +85,19 @@
                             required>
                             
                     </div>
-                    <div class="mb-3">
+                     <div class="mb-3">
                         <label>Password</label>
-                        <div class="input-group">
-                        <input
-                            type="password"
-                            name="password"
-                            id="password"
-                            class="form-control"
-                            required>
-                        <button
-                            type="button"
-                            id="togglePassword"
-                            class="btn btn-outline-secondary">
-                            <i id="eyeIcon" class="bi bi-eye"></i>
-                        </button>
+
+                        <div class="position-relative">
+                            <input
+                                type="password"
+                                name="password"
+                                class="form-control pe-5 password-input">
+
+                            <span class="toggle-password position-absolute top-50 end-0 translate-middle-y me-3"
+                                style="cursor: pointer;">
+                                <i class="bi bi-eye"></i>
+                            </span>
                         </div>
                     </div>
                     <div class="mb-3">
@@ -169,20 +167,21 @@
                         name="email"
                         class="form-control mb-3">
                 </div>
+                
                 <div class="mb-3">
                     <label>Password</label>
-                    <div class="input-group mb-3">
-                    <input
-                        type="password"
-                        id="editPassword"
-                        name="password"
-                        class="form-control mb-3">
-                        <button
-                            type="button"
-                            id="toggleEditPassword"
-                            class="btn btn-outline-secondary mb-3">
-                            <i id="eyeIconEdit" class="bi bi-eye"></i>
-                        </button>
+
+                    <div class="position-relative">
+                        <input
+                            type="password"
+                            name="password"
+                            id="editPassword"
+                            class="form-control pe-5 password-input">
+
+                        <span class="toggle-password position-absolute top-50 end-0 translate-middle-y me-3"
+                            style="cursor: pointer;">
+                            <i class="bi bi-eye"></i>
+                        </span>
                     </div>
                 </div>
                 <div class="mb-3">
@@ -235,37 +234,24 @@
         }
     }
 
-    const password = document.getElementById('password');
-    const toggle = document.getElementById('togglePassword');
-    const icon = document.getElementById('eyeIcon');
+    document.addEventListener('click', function (e) {
 
-    toggle.addEventListener('click', function () {
+        const toggle = e.target.closest('.toggle-password');
 
-        if (password.type === 'password') {
-            password.type = 'text';
-            icon.classList.remove('bi-eye');
-            icon.classList.add('bi-eye-slash');
+        if (!toggle) return;
+
+        const container = toggle.closest('.position-relative');
+        const input = container.querySelector('.password-input');
+        const icon = toggle.querySelector('i');
+
+        if (!input) return;
+
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.replace('bi-eye', 'bi-eye-slash');
         } else {
-            password.type = 'password';
-            icon.classList.remove('bi-eye-slash');
-            icon.classList.add('bi-eye');
-        }
-
-    });
-
-    const editPassword = document.getElementById('editPassword');
-    const toggleEdit = document.getElementById('toggleEditPassword');
-    const iconEdit = document.getElementById('eyeIconEdit');
-    toggleEdit.addEventListener('click', function () {
-
-        if (editPassword.type === 'editPassword') {
-            editPassword.type = 'text';
-            iconEdit.classList.remove('bi-eye');
-            iconEdit.classList.add('bi-eye-slash');
-        } else {
-            editPassword.type = 'editPassword';
-            iconEdit.classList.remove('bi-eye-slash');
-            iconEdit.classList.add('bi-eye');
+            input.type = 'password';
+            icon.classList.replace('bi-eye-slash', 'bi-eye');
         }
 
     });

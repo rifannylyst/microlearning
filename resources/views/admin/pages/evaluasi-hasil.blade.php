@@ -91,7 +91,7 @@
     </div>
 
 </div>
-<button onclick="window.location.href='{{ route('admin.evaluasi.hasil') }}'" class="btn btn-secondary btn-md">
+<button onclick="window.location.href='{{ route('admin.evaluasi') }}'" class="btn btn-secondary btn-md">
     Kembali
 </button>
 

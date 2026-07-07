@@ -83,14 +83,24 @@
                             name="email"
                             class="form-control"
                             required>
+                            
                     </div>
                     <div class="mb-3">
                         <label>Password</label>
+                        <div class="input-group">
                         <input
                             type="password"
                             name="password"
+                            id="password"
                             class="form-control"
                             required>
+                        <button
+                            type="button"
+                            id="togglePassword"
+                            class="btn btn-outline-secondary">
+                            <i id="eyeIcon" class="bi bi-eye"></i>
+                        </button>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label>Role</label>
@@ -143,25 +153,40 @@
                 </div>
 
                 <div class="modal-body">
-
+                <div class="mb-3">
+                    <label>Nama</label>
                     <input
                         type="text"
                         id="editName"
                         name="name"
                         class="form-control mb-3">
-
+                </div>
+                <div class="mb-3">
+                    <label>Email</label>
                     <input
                         type="email"
                         id="editEmail"
                         name="email"
                         class="form-control mb-3">
-
+                </div>
+                <div class="mb-3">
+                    <label>Password</label>
+                    <div class="input-group mb-3">
                     <input
                         type="password"
                         id="editPassword"
                         name="password"
                         class="form-control mb-3">
-
+                        <button
+                            type="button"
+                            id="toggleEditPassword"
+                            class="btn btn-outline-secondary mb-3">
+                            <i id="eyeIconEdit" class="bi bi-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label>Role</label>
                     <select
                         id="editRole"
                         name="role"
@@ -169,6 +194,7 @@
                         <option value="admin">Admin</option>
                         <option value="user">User</option>
                     </select>
+                </div>
                 </div>
 
                 <div class="modal-footer">
@@ -208,5 +234,40 @@
             formDelete.submit();
         }
     }
+
+    const password = document.getElementById('password');
+    const toggle = document.getElementById('togglePassword');
+    const icon = document.getElementById('eyeIcon');
+
+    toggle.addEventListener('click', function () {
+
+        if (password.type === 'password') {
+            password.type = 'text';
+            icon.classList.remove('bi-eye');
+            icon.classList.add('bi-eye-slash');
+        } else {
+            password.type = 'password';
+            icon.classList.remove('bi-eye-slash');
+            icon.classList.add('bi-eye');
+        }
+
+    });
+
+    const editPassword = document.getElementById('editPassword');
+    const toggleEdit = document.getElementById('toggleEditPassword');
+    const iconEdit = document.getElementById('eyeIconEdit');
+    toggleEdit.addEventListener('click', function () {
+
+        if (editPassword.type === 'editPassword') {
+            editPassword.type = 'text';
+            iconEdit.classList.remove('bi-eye');
+            iconEdit.classList.add('bi-eye-slash');
+        } else {
+            editPassword.type = 'editPassword';
+            iconEdit.classList.remove('bi-eye-slash');
+            iconEdit.classList.add('bi-eye');
+        }
+
+    });
 </script>
 @endsection

@@ -76,7 +76,15 @@
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" required>
+                    <div class="input-group">
+                    <input type="password" class="form-control mb-3" id="password" name="password" required>
+                    <button
+                            type="button"
+                            id="togglePassword"
+                            class="btn btn-outline-secondary mb-3">
+                            <i id="eyeIcon" class="bi bi-eye"></i>
+                        </button>
+                </div>
                 </div>
                 <button type="submit" class="btn btn-primary w-100 py-2">Login</button>
             </form>
@@ -87,5 +95,24 @@
             </div>
         </div>
     </div>
+    <script>
+    const password = document.getElementById('password');
+    const toggle = document.getElementById('togglePassword');
+    const icon = document.getElementById('eyeIcon');
+
+    toggle.addEventListener('click', function () {
+
+        if (password.type === 'password') {
+            password.type = 'text';
+            icon.classList.remove('bi-eye');
+            icon.classList.add('bi-eye-slash');
+        } else {
+            password.type = 'password';
+            icon.classList.remove('bi-eye-slash');
+            icon.classList.add('bi-eye');
+        }
+
+    });
+    </script
 </body>
 </html>

@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - Microlearning</title>
+    <!-- Google Fonts Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -11,57 +15,72 @@
 
     <style>
         body {
-            background: radial-gradient(circle at top,
-                        rgba(56, 189, 248, 0.22),
-                        transparent 28%),
-                        linear-gradient(180deg,
-                        #0f172a 0%,
-                        #020617 100%);
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
+            background-image: 
+                radial-gradient(at 50% 0%, rgba(59, 130, 246, 0.08) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(99, 102, 241, 0.04) 0px, transparent 50%);
             min-height: 100vh;
-            color: #f8fafc;
+            color: #334155;
         }
 
         .register-card {
-            background: rgba(15, 23, 42, 0.96);
-            border: 1px solid rgba(148, 163, 184, 0.12);
-            border-radius: 20px;
+            background: #ffffff;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            border-radius: 24px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05) !important;
         }
 
         .register-card .form-control {
-            background: rgba(15, 23, 42, 0.75);
-            border: 1px solid rgba(148, 163, 184, 0.18);
-            color: #f8fafc;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: #1e293b;
+            font-size: 0.9rem;
+            padding: 0.6rem 0.9rem;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
         }
 
         .register-card .form-control:focus {
-            box-shadow: 0 0 0 0.25rem rgba(14, 165, 233, 0.25);
-            border-color: #38bdf8;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            border-color: #3b82f6;
         }
 
         .register-card .form-label {
-            color: #cbd5e1;
+            color: #475569;
+            font-weight: 500;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
         }
 
         .register-card .btn-primary {
-            background: #1e293b;
+            background: linear-gradient(135deg, #2563eb, #4f46e5);
             border: none;
-            box-shadow: 0 10px 22px rgba(15, 23, 42, 0.24);
-            color: #f8fafc;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+            color: #ffffff;
+            font-weight: 500;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
         }
 
         .register-card .btn-primary:hover {
-            background: #334155;
+            background: linear-gradient(135deg, #1d4ed8, #4338ca);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
         }
 
         .register-brand {
             width: 72px;
             height: 72px;
-            border-radius: 22px;
-            background: linear-gradient(135deg, #38bdf8, #818cf8);
-            display: grid;
-            place-items: center;
-            margin: auto;
+            border-radius: 18px;
             overflow: hidden;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
         }
 
         .register-brand img {
@@ -70,23 +89,40 @@
             object-fit: cover;
         }
 
+        .register-footer p {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
         .register-footer a {
-            color: #7dd3fc;
+            color: #2563eb;
             text-decoration: none;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: color 0.15s ease;
         }
 
         .register-footer a:hover {
+            color: #1d4ed8;
             text-decoration: underline;
         }
         .input-group .btn {
-            background: rgba(15, 23, 42, 0.75);
-            border: 1px solid rgba(148, 163, 184, 0.18);
-            color: #cbd5e1;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: #64748b;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+            padding: 0.6rem 0.9rem;
         }
 
         .input-group .btn:hover {
-            background: #334155;
-            color: white;
+            background: #f8fafc;
+            color: #1e293b;
+        }
+        .text-muted-custom {
+            color: #64748b;
+            font-size: 0.85rem;
+            line-height: 1.5;
         }
     </style>
 </head>
@@ -95,7 +131,7 @@
 
 <div class="container d-flex justify-content-center align-items-center py-5 min-vh-100">
 
-    <div class="card register-card p-4 shadow-lg" style="width: 460px;">
+    <div class="card register-card p-4 shadow-lg" style="width: 460px; border: none;">
 
         <div class="text-center mb-4">
 
@@ -103,11 +139,11 @@
                 <img src="{{ asset('logo.jpg') }}" alt="Logo">
             </div>
 
-            <h3 class="fw-bold text-white">
+            <h3 class="fw-bold text-slate-900" style="font-size: 1.5rem;">
                 Buat Akun Baru
             </h3>
 
-            <p class="text-white mb-0">
+            <p class="text-muted-custom mb-0">
                 Bergabunglah dengan MicroLearn dan mulai belajar sekarang.
             </p>
 
@@ -136,12 +172,13 @@
                     name="name"
                     class="form-control"
                     value="{{ old('name') }}"
+                    placeholder="Masukkan nama lengkap"
                     required>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">
-                    Email Address
+                    Email
                 </label>
 
                 <input
@@ -149,6 +186,7 @@
                     name="email"
                     class="form-control"
                     value="{{ old('email') }}"
+                    placeholder="Masukkan email"
                     required>
             </div>
 
@@ -163,6 +201,7 @@
                         name="password"
                         id="password"
                         class="form-control"
+                        placeholder="Masukkan password"
                         required>
 
                     <button
@@ -186,6 +225,7 @@
                         name="password_confirmation"
                         id="password_confirmation"
                         class="form-control"
+                        placeholder="Masukkan ulang password"
                         required>
 
                     <button
@@ -200,13 +240,13 @@
 
             <button
                 type="submit"
-                class="btn btn-primary w-100 py-2">
+                class="btn btn-primary w-100 py-2.5 mt-2">
                 Daftar
             </button>
 
         </form>
 
-        <div class="text-center text-white mt-4 register-footer">
+        <div class="text-center mt-4 register-footer">
 
             <p class="mb-1">
                 Sudah punya akun?

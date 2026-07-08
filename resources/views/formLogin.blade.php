@@ -76,14 +76,12 @@
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <div class="input-group">
+                    <div class="position-relative">
                     <input type="password" class="form-control mb-3" id="password" name="password" required>
-                    <button
-                            type="button"
-                            id="togglePassword"
-                            class="btn btn-outline-secondary mb-3">
-                            <i id="eyeIcon" class="bi bi-eye"></i>
-                        </button>
+                    <span class="toggle-password position-absolute top-50 end-0 translate-middle-y me-3"
+                            style="cursor: pointer;">
+                            <i class="bi bi-eye"></i>
+                        </span>
                 </div>
                 </div>
                 <button type="submit" class="btn btn-primary w-100 py-2">Login</button>
@@ -100,19 +98,27 @@
     const toggle = document.getElementById('togglePassword');
     const icon = document.getElementById('eyeIcon');
 
-    toggle.addEventListener('click', function () {
+    document.addEventListener('click', function (e) {
 
-        if (password.type === 'password') {
-            password.type = 'text';
-            icon.classList.remove('bi-eye');
-            icon.classList.add('bi-eye-slash');
+        const toggle = e.target.closest('.toggle-password');
+
+        if (!toggle) return;
+
+        const container = toggle.closest('.position-relative');
+        const input = container.querySelector('.password-input');
+        const icon = toggle.querySelector('i');
+
+        if (!input) return;
+
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.replace('bi-eye', 'bi-eye-slash');
         } else {
-            password.type = 'password';
-            icon.classList.remove('bi-eye-slash');
-            icon.classList.add('bi-eye');
+            input.type = 'password';
+            icon.classList.replace('bi-eye-slash', 'bi-eye');
         }
 
     });
-    </script
+    </script>
 </body>
 </html>

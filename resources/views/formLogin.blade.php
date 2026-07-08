@@ -77,12 +77,17 @@
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
                     <div class="position-relative">
-                    <input type="password" class="form-control mb-3" id="password" name="password" required>
-                    <span class="toggle-password position-absolute top-50 end-0 translate-middle-y me-3"
+                        <input
+                            type="password"
+                            name="password"
+                            id="editPassword"
+                            class="form-control pe-5 password-input">
+
+                        <span class="toggle-password position-absolute top-50 end-0 translate-middle-y me-3"
                             style="cursor: pointer;">
                             <i class="bi bi-eye"></i>
                         </span>
-                </div>
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary w-100 py-2">Login</button>
             </form>

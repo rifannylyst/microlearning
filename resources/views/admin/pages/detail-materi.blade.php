@@ -74,7 +74,15 @@
                 @endif
                 <!-- BUTTON -->
                 <div class="flex gap-2">
-                    <button onclick="editModal( '{{ $konten->id }}', '{{ $konten->tipe }}', '{{ $konten->link }}', '{{ $konten->deskripsi }}', '{{ $konten->urutan }}', '{{ $konten->durasi }}')" class="bg-yellow-500 text-white px-3 py-2 rounded hover:bg-yellow-600 transition">
+                    <button
+                        onclick='editModal(
+                            {{ $konten->id }},
+                            @json($konten->tipe),
+                            @json($konten->link),
+                            @json($konten->deskripsi),
+                            {{ $konten->durasi ?? "null" }}
+                        )'
+                        class="bg-yellow-500 text-white px-3 py-2 rounded hover:bg-yellow-600 transition">
                         <i class="bi bi-pencil-fill"></i>
                     </button>
                     <button onclick="deleteModal('{{ $konten->id }}')" class="bg-red-500 text-white px-3 py-2 rounded hover:bg-red-600 transition">
@@ -158,7 +166,7 @@
                 <label class="block text-gray-700 mb-2">
                     Tipe Konten
                 </label>
-                <select name="tipe" id="tipeKonten" onchange="ambilUrutan()" class="w-full border border-gray-300 p-2 rounded" required>
+                <select name="tipe" id="tipeKonten" class="w-full border border-gray-300 p-2 rounded" required>
                     <option value="">Pilih tipe</option>
                     <option value="materi">Materi</option>
                     <option value="video">Video</option>
@@ -422,7 +430,12 @@
         }
     }
 
-    function editModal(id, tipe, link, deskripsi, urutan, durasi) {
+    function editModal(id, tipe, link, deskripsi, durasi) {
+
+        document.getElementById('editForm').action =
+            `/admin/materi/{{ $materi->id }}/konten/${id}`;
+
+        console.log(document.getElementById('editForm').action);
 
         openModal('editKontenModal');
 
@@ -430,9 +443,6 @@
         document.getElementById('editLink').value = link;
         document.getElementById('editDeskripsi').value = deskripsi;
         document.getElementById('editDurasi').value = durasi;
-
-        document.getElementById('editForm').action =
-            `/admin/materi/{{ $materi->id }}/konten/${id}`;
     }
 
     function deleteModal(id) {
@@ -459,21 +469,6 @@
             `/admin/materi/{{ $materi->id }}/quiz/${id}`;
     }
 
-    async function ambilUrutan() {
-
-    const tipe = document.getElementById('tipeKonten').value;
-    if (!tipe) return;
-    try {
-        const response = await fetch(
-            `/admin/materi/{{ $materi->id }}/next-urutan/${tipe}`
-        );
-        const data = await response.json();
-        document.getElementById('urutanInput').value =
-            data.nextUrutan;
-    } catch (error) {
-        console.log(error);
-    }
-}
 </script>
 
 @endsection

@@ -146,24 +146,28 @@ class AdminController extends Controller
         return redirect()->route('admin.pengguna')->with('success', 'Pengguna berhasil dihapus.');
     }
 
-    public function kontenUpdate(Request $request, $id){
-        $konten = KontenMateri::findOrFail($id);
+    public function kontenUpdate(Request $request, $id, $kontenId)
+    {
+        $konten = KontenMateri::findOrFail($kontenId);
 
         $konten->update([
-            'tipe' => $request->input('tipe'),
-            'deskripsi' => $request->input('deskripsi'),
-            'durasi' => $request->input('durasi'),
+            'tipe' => $request->tipe,
+            'deskripsi' => $request->deskripsi,
+            'durasi' => $request->durasi,
         ]);
 
-        //upload file baru
         if ($request->hasFile('isi')) {
 
-            //upload file baru
             $path = $request->file('isi')->store('konten_materi', 'public');
-            $konten->update(['isi' => $path]);
+
+            $konten->update([
+                'isi' => $path
+            ]);
         }
 
-        return redirect()->route('admin.materi.detail-materi', $konten->materi_id)->with('success', 'Konten materi berhasil diperbarui.');
+        return redirect()
+            ->route('admin.materi.detail-materi', $id)
+            ->with('success', 'Konten materi berhasil diperbarui.');
     }
 
     public function kontenDelete($id){

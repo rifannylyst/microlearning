@@ -230,7 +230,7 @@
                         </div>
                         <span class="text-xs font-medium text-slate-500">{{ $course->user->name }}</span>
                     </div>
-                    <a href="{{ route('materi.show', $course->id) }}" class="inline-flex items-center gap-1 px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold shadow-sm hover:shadow transition-all">
+                    <a href="{{ route('materi.konten', $course->id) }}" class="inline-flex items-center gap-1 px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold shadow-sm hover:shadow transition-all">
                         Belajar <i class="bi bi-arrow-right text-[10px]"></i>
                     </a>
                 </div>

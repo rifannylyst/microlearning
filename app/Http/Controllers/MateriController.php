@@ -27,12 +27,12 @@ class MateriController extends Controller
         public function show($id)
         {
             $materi = Materi::with('user', 'konten_materi', 'quiz')->findOrFail($id);
-            return response()->json($materi);
+            return view('materi.show', compact('materi'));
         }
 
         public function konten($id)
         {
-            $materi = Materi::with(['konten_materi' => function ($query) { $query->orderBy('urutan', 'asc'); }, 'quiz'])->findOrFail($id);
+            $materi = Materi::with(['konten_materi', 'quiz'])->findOrFail($id);
             $userId = Auth::id();
             $kontens = $materi->konten_materi;
 
@@ -148,7 +148,6 @@ class MateriController extends Controller
 
             $kontens = KontenMateri::where('materi_id', $id)
                 ->where('tipe', $tipe)
-                ->orderBy('urutan', 'asc')
                 ->get();
 
             return view('content.tipe', compact('materi', 'kontens', 'tipe'));

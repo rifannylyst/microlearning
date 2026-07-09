@@ -29,11 +29,7 @@ class MateriController extends Controller
         public function show($id)
         {
             $materi = Materi::with('user', 'konten_materi', 'quiz')->findOrFail($id);
-<<<<<<< HEAD
             return view('materi.show', compact('materi'));
-=======
-            return view('content.detail', compact('materi'));
->>>>>>> 261d04f (Fitur Notif)
         }
 
         public function konten($id)

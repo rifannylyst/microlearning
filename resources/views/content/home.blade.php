@@ -413,9 +413,7 @@
         </div>
     </div>
 </section>
-<<<<<<< HEAD
 @endsection
-=======
 <script>
 document.querySelectorAll('.bookmark-btn').forEach(button => {
 
@@ -451,4 +449,3 @@ document.querySelectorAll('.bookmark-btn').forEach(button => {
 });
 </script>
 @endsection
->>>>>>> 261d04f (Fitur Notif)

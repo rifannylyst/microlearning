@@ -47,7 +47,7 @@ class MateriController extends Controller
                 ->where('is_completed', true)
                 ->count();
 
-            $quizUnlocked = $kontenSelesai > 3;
+            $quizUnlocked = $kontenSelesai > 2;
 
             $hasilQuiz = HasilQuiz::where('user_id', $userId)
                 ->get()

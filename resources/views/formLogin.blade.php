@@ -109,6 +109,18 @@
                 <p class="text-muted-custom mb-0">Masuk untuk melanjutkan dan kelola konten pembelajaran Anda.</p>
             </div>
 
+            @if(session('error'))
+            <div class="mb-4 flex items-center p-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50">
+                <svg class="w-5 h-5 me-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                        d="M18 10A8 8 0 1110 2a8 8 0 018 8zM9 7a1 1 0 112 0v4a1 1 0 11-2 0V7zm1 8a1.25 1.25 0 100-2.5A1.25 1.25 0 0010 15z"
+                        clip-rule="evenodd">
+                    </path>
+                </svg>
+
+                <span>{{ session('error') }}</span>
+            </div>
+            @endif
             <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="mb-3">

@@ -413,7 +413,6 @@
         </div>
     </div>
 </section>
-@endsection
 <script>
 document.querySelectorAll('.bookmark-btn').forEach(button => {
 

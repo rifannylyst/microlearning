@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\NotificationHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Materi;
@@ -35,6 +36,20 @@ class AdminController extends Controller
 
 
         Materi::create($validatedData);
+
+        //Ambil seluruh Siswa
+        $students = User::where('role', 'user')->get();
+
+        foreach ($students as $student) {
+            NotificationHelper::create(
+                $student->id,
+                'materi',
+                'Materi Baru Tersedia',
+                'Materi baru "' . $validatedData['judul'] . '" telah ditambahkan. Silakan cek materi terbaru di platform.',
+                'materi',
+                Materi::latest()->first()->id
+            );
+        }
 
         return redirect()->route('admin.materi')->with('success', 'Materi berhasil ditambahkan.');
     }
@@ -72,31 +87,39 @@ class AdminController extends Controller
 
    public function kontenStore(Request $request, $materiId)
     {
-        $validatedData = $request->validate([
+        $rules = [
             'tipe' => 'required|in:materi,video,audio',
-            'isi' => 'nullable|file|mimes:mp4,mp3,pdf,doc,docx|max:20480',
-            'durasi' => 'nullable|integer',
             'deskripsi' => 'nullable|string',
-        ]);
+            'durasi' => 'nullable|integer',
+        ];
 
-        // default null
+        // Validasi file sesuai tipe
+        if ($request->tipe == 'video') {
+            $rules['isi'] = 'required|file|mimes:mp4|max:20480';
+        } elseif ($request->tipe == 'audio') {
+            $rules['isi'] = 'required|file|mimes:mp3|max:20480';
+        } elseif ($request->tipe == 'materi') {
+            $rules['isi'] = 'required|file|mimes:pdf,doc,docx|max:20480';
+        }
+
+        $validatedData = $request->validate($rules);
+
         $path = null;
 
-        // jika ada file upload
         if ($request->hasFile('isi')) {
-            $path = $request->file('isi')
-                ->store('konten_materi', 'public');
+            $path = $request->file('isi')->store('konten_materi', 'public');
         }
 
         KontenMateri::create([
             'materi_id' => $materiId,
             'tipe' => $validatedData['tipe'],
             'isi' => $path,
-            'link' => $request->input('link') ?? null,
+            'link' => $request->input('link'),
             'deskripsi' => $validatedData['deskripsi'] ?? null,
             'durasi' => $validatedData['durasi'] ?? null,
         ]);
 
+       
         return redirect()
             ->route('admin.materi.detail-materi', $materiId)
             ->with('success', 'Konten materi berhasil ditambahkan.');

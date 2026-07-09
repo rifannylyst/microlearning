@@ -13,6 +13,8 @@ use App\Models\Progress;
 use App\Models\Quiz;
 use App\Models\HasilQuiz;
 use App\Models\Pertanyaan;
+use App\Helpers\NotificationHelper;
+use App\Models\Notifications;
 
 class MateriController extends Controller
 {
@@ -27,7 +29,11 @@ class MateriController extends Controller
         public function show($id)
         {
             $materi = Materi::with('user', 'konten_materi', 'quiz')->findOrFail($id);
+<<<<<<< HEAD
             return view('materi.show', compact('materi'));
+=======
+            return view('content.detail', compact('materi'));
+>>>>>>> 261d04f (Fitur Notif)
         }
 
         public function konten($id)
@@ -45,7 +51,7 @@ class MateriController extends Controller
                 ->where('is_completed', true)
                 ->count();
 
-            $quizUnlocked = $kontenSelesai > 0;
+            $quizUnlocked = $kontenSelesai > 3;
 
             $hasilQuiz = HasilQuiz::where('user_id', $userId)
                 ->get()
@@ -198,6 +204,36 @@ class MateriController extends Controller
                     'last_accessed_at' => now(),
                 ]
             );
+
+            // Ambil nama materi
+            $materi = Materi::find($id);
+
+            // Pesan notifikasi
+            if ($persentase == 100) {
+                $pesan = "Selamat! Anda telah menyelesaikan semua konten pada materi {$materi->judul}.";
+            } else {
+                $pesan = "Anda telah menyelesaikan {$selesai} dari {$totalKonten} konten pada materi {$materi->judul} ({$persentase}%).";
+            }
+            // Cek apakah notifikasi dengan progress yang sama sudah ada
+            $exists = Notifications::where('user_id', $userId)
+                ->where('tipe', 'progress')
+                ->where('reference_id', $id)
+                ->where('pesan', $pesan)
+                ->exists();
+
+            if (!$exists) {
+
+                NotificationHelper::create(
+                    $userId,
+                    'progress',
+                    'Progress Materi Diperbarui',
+                    $pesan,
+                    'materi',
+                    $id
+                );
+
+            }
+
 
             return redirect()->route('materi.konten', $id)->with('success', 'Progress konten berhasil diperbarui.');
         }

@@ -29,12 +29,12 @@
                         <span class="text-[9px] font-bold px-2 py-0.5 bg-blue-100 text-blue-700 rounded uppercase tracking-wider">
                             Materi {{ $item->urutan }}
                         </span>
-                        <form action="{{ route('bookmark.toggle', $item->id) }}" method="POST" class="inline">
-                            @csrf
-                            <button type="submit" class="w-7 h-7 rounded-lg flex items-center justify-center transition-all bg-white/85 backdrop-blur-sm text-slate-600 hover:text-yellow-500 hover:bg-white border border-slate-200/60 shadow-sm focus:outline-none" title="Simpan Materi">
-                                <i class="bi {{ in_array($item->id, $bookmarkedMateriIds) ? 'bi-bookmark-fill text-yellow-500 text-xs' : 'bi-bookmark text-slate-400 text-xs' }}"></i>
+                        <button
+                                class="bookmark-btn"
+                                data-id="{{ $item->id }}"
+                            >
+                                <i class="bi {{ $item->isBookmarked() ? 'bi-bookmark-fill' : 'bi-bookmark' }}"></i>
                             </button>
-                        </form>
                     </div>
                     <div class="relative z-20">
                         <div class="w-8 h-8 rounded-lg bg-blue-600/10 flex items-center justify-center text-blue-600 border border-blue-200/30 group-hover:scale-105 transition-transform duration-300">
@@ -83,4 +83,38 @@
     </div>
 
 </div>
+<script>
+document.querySelectorAll('.bookmark-btn').forEach(button => {
+
+    button.addEventListener('click', function () {
+
+        const materiId = this.dataset.id;
+        const icon = this.querySelector('i');
+
+        fetch(`/bookmark/${materiId}`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document
+                    .querySelector('meta[name="csrf-token"]')
+                    .content,
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+
+            if (data.status === 'added') {
+                icon.classList.remove('bi-bookmark');
+                icon.classList.add('bi-bookmark-fill');
+            } else {
+                icon.classList.remove('bi-bookmark-fill');
+                icon.classList.add('bi-bookmark');
+            }
+
+        });
+
+    });
+
+});
+</script>
 @endsection

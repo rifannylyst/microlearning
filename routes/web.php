@@ -32,6 +32,8 @@ Route::middleware('auth')->group(function() {
     Route::get('/evaluasi/{evaluasi}', [App\Http\Controllers\EvaluasiController::class, 'show'])->name('siswa.evaluasi.show');
     Route::post('/evaluasi/{evaluasi}/submit', [App\Http\Controllers\EvaluasiController::class, 'submit'])->name('siswa.evaluasi.submit');
     Route::get('/evaluasi/{evaluasi}/hasil', [App\Http\Controllers\EvaluasiController::class, 'hasil'])->name('siswa.evaluasi.hasil');
+    Route::get('/notifications', [App\Http\Controllers\HomeController::class, 'notifications'])->name('notifications');
+    Route::get('/notifications/read/{id}', [App\Http\Controllers\HomeController::class, 'read'])->name('notifications.read');
     });
 
 Route::middleware(['auth', 'admin'])

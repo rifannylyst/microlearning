@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
@@ -55,6 +55,67 @@
 
             <!-- Right: Profile Dropdown -->
             <div class="flex-1 flex justify-end items-center">
+
+                {{-- NOTIFICATION --}}
+    <div class="relative">
+
+        <button
+            onclick="toggleNotification()"
+            class="relative w-10 h-10 rounded-xl hover:bg-slate-100 transition flex items-center justify-center">
+
+            <i class="bi bi-bell text-lg text-slate-600"></i>
+
+            @if($unreadNotifications > 0)
+
+                <span
+                    class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] rounded-full min-w-[18px] h-[18px] flex items-center justify-center">
+
+                    {{ $unreadNotifications }}
+
+                </span>
+
+            @endif
+
+        </button>
+
+        {{-- Dropdown Notification --}}
+                    <div id="notificationDropdown"
+                        class="hidden absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-xl border border-slate-200 z-50">
+                        <div class="px-4 py-3 border-b">
+                            <h6 class="font-semibold text-sm">
+                                Notifikasi
+                            </h6>
+                        </div>
+                        <div class="max-h-80 overflow-y-auto">
+                            @forelse($notifications as $notification)
+                                <a
+                                    href="{{ route('notifications.read',$notification->id) }}"
+                                    class="block px-4 py-3 hover:bg-slate-50 border-b border-slate-100 no-underline">
+                                    <div class="font-medium text-sm">
+                                        {{ $notification->judul }}
+                                    </div>
+                                    <div class="text-xs text-slate-500 mt-1">
+                                        {{ $notification->pesan }}
+                                    </div>
+                                    <div class="text-[10px] text-slate-400 mt-1">
+                                        {{ $notification->created_at->diffForHumans() }}
+                                    </div>
+                                </a>
+                            @empty
+                                <div class="text-center py-6 text-slate-400 text-sm">
+                                    Tidak ada notifikasi
+                                </div>
+                            @endforelse
+                        </div>
+                        <div class="border-t p-2">
+                            <a
+                                href="{{ route('notifications') }}"
+                                class="block text-center text-blue-600 text-sm hover:underline">
+                                Lihat Semua
+                            </a>
+                        </div>
+                    </div>
+                </div>
                 <div class="relative">
                     <button onclick="toggleProfile()" class="flex items-center space-x-2 bg-slate-50 hover:bg-slate-100 text-slate-700 px-3.5 py-1.5 rounded-xl border border-slate-200/50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20">
                         <span class="font-semibold text-xs"> {{ auth()->user()->name }} </span>
@@ -70,6 +131,7 @@
                             <a href="{{ route('profile') }}" class="flex items-center px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 transition-colors no-underline">
                                 <i class="bi bi-person mr-2 text-sm text-slate-400"></i> Profil Saya
                             </a>
+                            
                             <a href="{{ route('bookmarks') }}" class="flex items-center px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 transition-colors no-underline">
                                 <i class="bi bi-bookmark mr-2 text-sm text-slate-400"></i> Materi Tersimpan
                             </a>
@@ -188,6 +250,14 @@
             dropdown.classList.add('hidden');
         }
     });
+
+    function toggleNotification() {
+
+        document
+            .getElementById('notificationDropdown')
+            .classList
+            .toggle('hidden');
+    }
 </script>
 </body>
 </html>

@@ -31,4 +31,12 @@ class Materi extends Model
     public function progress() {
         return $this->hasMany(Progress::class, 'materi_id');
     }
+
+    public function isBookmarked() {
+        $user = auth()->user();
+        if (!$user) {
+            return false;
+        }
+        return $user->bookmarks()->where('materi_id', $this->id)->exists();
+    }
 }

@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Quiz;
 use App\Models\Pertanyaan;
 use App\Models\Jawaban;
+use App\Helpers\NotificationHelper;
 
 class KuisController extends Controller
 {
@@ -22,6 +23,19 @@ class KuisController extends Controller
         $validatedData['materi_id'] = $materiId;
 
         Quiz::create($validatedData);
+
+        $students = User::where('role', 'user')->get();
+
+        foreach ($students as $student) {
+            NotificationHelper::create(
+                $student->id,
+                'quiz',
+                'Quiz Baru Tersedia',
+                'Quiz baru "' . $validatedData['judul'] . '" telah ditambahkan. Silakan cek quiz terbaru di platform.',
+                'quiz',
+                Quiz::latest()->first()->id
+            );
+        }
 
         return redirect()->route('admin.materi.detail-materi', $materiId)->with('success', 'Quiz berhasil ditambahkan.');
     }

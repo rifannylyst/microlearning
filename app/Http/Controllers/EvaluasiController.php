@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use App\Models\SoalEvaluasi;
 use App\Models\HasilEvaluasi;
 use App\Models\JawabanEvaluasi;
+use App\Helpers\NotificationHelper;
+use App\Models\User;
 
 class EvaluasiController extends Controller
 {
@@ -30,6 +32,19 @@ class EvaluasiController extends Controller
             'judul',
             'deskripsi'
         ]));
+
+        $students = User::where('role', 'user')->get();
+
+        foreach ($students as $student) {
+            NotificationHelper::create(
+                $student->id,
+                'evaluasi',
+                'Evaluasi Baru Tersedia',
+                'Evaluasi baru "' . $request->judul . '" telah ditambahkan. Silakan cek evaluasi terbaru di platform.',
+                'evaluasi',
+                Evaluasi::latest()->first()->id
+            );
+        }
 
         return back()->with('success', 'Evaluasi Berhasil Ditambahkan');
     }
@@ -226,6 +241,15 @@ class EvaluasiController extends Controller
             ]);
 
             DB::commit();
+
+            NotificationHelper::create(
+                auth()->id(),
+                'evaluasi',
+                'Evaluasi Selesai',
+                "Selamat! Anda telah menyelesaikan evaluasi '{$evaluasi->judul}'",
+                'evaluasi',
+                $evaluasi->id
+            );
 
             return redirect()->route(
                 'siswa.evaluasi.hasil',

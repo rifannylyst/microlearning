@@ -7,6 +7,7 @@ use App\Models\Materi;
 use App\Models\Bookmarks;
 use App\Models\Evaluasi;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Notifications;
 
 class HomeController extends Controller
 {
@@ -49,14 +50,19 @@ class HomeController extends Controller
 
         if ($bookmark) {
             $bookmark->delete();
-        } else {
-            Bookmarks::create([
-                'user_id' => Auth::id(),
-                'materi_id' => $materiId
-            ]);
-        }
+            return response()->json([
+            'status' => 'removed'
+        ]);
+        } 
+        
+        Bookmarks::create([
+        'user_id' => Auth::id(),
+        'materi_id' => $materiId
+        ]);
 
-        return redirect()->back();
+        return response()->json([
+            'status' => 'added'
+        ]);
     }
 
     public function bookmarks()
@@ -80,5 +86,51 @@ class HomeController extends Controller
         return view('content.evaluasi', compact('evaluasis'));
     }
 
+    public function notifications()
+    {
+        $notifications = Notifications::where('user_id', Auth::id())
+            ->latest()
+            ->get();
+
+        // Mark all notifications as read
+        Notifications::where('user_id', Auth::id())->update(['is_read' => true]);
+
+        return view('content.notifications', compact('notifications'));
+    }
+
+    public function read($id)
+    {
+        $notification = Notifications::findOrFail($id);
+
+        if ($notification->user_id != auth()->id()) {
+            abort(403);
+        }
+
+        $notification->update([
+            'is_read' => true
+        ]);
+
+        switch ($notification->reference_type) {
+
+            case 'materi':
+                return redirect()->route(
+                    'materi.show',
+                    $notification->reference_id
+                );
+
+            case 'quiz':
+                return redirect()->route(
+                    'materi.index'
+                );
+
+            case 'evaluasi':
+                return redirect()->route(
+                    'evaluasi'
+                );
+
+            default:
+                return redirect()->route('home');
+        }
+    }
 
 }

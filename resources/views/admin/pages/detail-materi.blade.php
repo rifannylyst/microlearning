@@ -189,7 +189,7 @@
                 <label class="block text-gray-700 mb-2">
                     Upload File
                 </label>
-                <input type="file" name="isi" class="w-full border border-gray-300 p-2 rounded">
+                <input type="file" name="isi" id="isi" class="w-full border border-gray-300 p-2 rounded">
             </div>
 
             <!-- LINK -->
@@ -468,6 +468,30 @@
         document.getElementById('deleteQuizForm').action =
             `/admin/materi/{{ $materi->id }}/quiz/${id}`;
     }
+
+    document.getElementById('tipeKonten').addEventListener('change', function () {
+        const fileInput = document.getElementById('isi');
+
+        switch (this.value) {
+            case 'video':
+                fileInput.accept = '.mp4';
+                break;
+
+            case 'audio':
+                fileInput.accept = '.mp3';
+                break;
+
+            case 'materi':
+                fileInput.accept = '.pdf,.doc,.docx';
+                break;
+
+            default:
+                fileInput.accept = '';
+        }
+
+        // Menghapus file yang sudah dipilih ketika tipe berubah
+        fileInput.value = '';
+    });
 
 </script>
 

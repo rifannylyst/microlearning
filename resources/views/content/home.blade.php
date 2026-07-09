@@ -181,18 +181,14 @@
                 </div>
                 <div class="flex justify-between items-start w-full relative z-20">
                     <span class="text-[9px] font-bold px-2 py-0.5 bg-blue-100 text-blue-700 rounded uppercase tracking-wider">
-                        Materi {{ $course->urutan }}
+                        Materi
                     </span>
-                    <form action="{{ route('bookmark.toggle', $course->id) }}" method="POST" class="inline">
-                        @csrf
-                        <button type="submit" class="w-7 h-7 rounded-lg flex items-center justify-center transition-all bg-white/85 backdrop-blur-sm text-slate-600 hover:text-yellow-500 hover:bg-white border border-slate-200/60 shadow-sm focus:outline-none" title="Simpan Materi">
-                            @if(auth()->user()->bookmarks()->where('materi_id', $course->id)->exists())
-                                <i class="bi bi-bookmark-fill text-yellow-500 text-xs"></i>
-                            @else
-                                <i class="bi bi-bookmark text-slate-400 text-xs"></i>
-                            @endif
-                        </button>
-                    </form>
+                    <button
+                        class="bookmark-btn"
+                        data-id="{{ $course->id }}"
+                    >
+                        <i class="bi {{ $course->isBookmarked() ? 'bi-bookmark-fill' : 'bi-bookmark' }}"></i>
+                    </button>
                 </div>
                 <div class="relative z-20">
                     <div class="w-8 h-8 rounded-lg bg-blue-600/10 flex items-center justify-center text-blue-600 border border-blue-200/30 group-hover:scale-105 transition-transform duration-300">
@@ -417,4 +413,42 @@
         </div>
     </div>
 </section>
+<<<<<<< HEAD
 @endsection
+=======
+<script>
+document.querySelectorAll('.bookmark-btn').forEach(button => {
+
+    button.addEventListener('click', function () {
+
+        const materiId = this.dataset.id;
+        const icon = this.querySelector('i');
+
+        fetch(`/bookmark/${materiId}`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document
+                    .querySelector('meta[name="csrf-token"]')
+                    .content,
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+
+            if (data.status === 'added') {
+                icon.classList.remove('bi-bookmark');
+                icon.classList.add('bi-bookmark-fill');
+            } else {
+                icon.classList.remove('bi-bookmark-fill');
+                icon.classList.add('bi-bookmark');
+            }
+
+        });
+
+    });
+
+});
+</script>
+@endsection
+>>>>>>> 261d04f (Fitur Notif)

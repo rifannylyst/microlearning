@@ -5,11 +5,19 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
     @foreach($users as $user)
+    @php
+        $jumlahSelesai = $user->progress
+            ->where('status', 'selesai')
+            ->pluck('materi_id')
+            ->unique()
+            ->count();
 
-        @php
-            $progress = round($user->progress->avg('persentase') ?? 0);
-            $quiz = round($user->hasil_quiz->avg('score') ?? 0);
-        @endphp
+        $progress = $totalMateri > 0
+            ? round(($jumlahSelesai / $totalMateri) * 100)
+            : 0;
+
+        $quiz = round($user->hasil_quiz->avg('score') ?? 0);
+    @endphp
 
         <div class="bg-white shadow-sm border border-slate-200/60 rounded-2xl p-5 hover:shadow-md transition-all duration-300 flex flex-col justify-between h-full hover:-translate-y-0.5">
 

@@ -2,6 +2,18 @@
 
 @section('content')
 
+@php
+$totalMateri = $materi->count();
+
+$materiSelesai = $user->progress
+    ->pluck('materi_id')
+    ->unique()
+    ->count();
+
+$progressKeseluruhan = $totalMateri > 0
+    ? round(($materiSelesai / $totalMateri) * 100)
+    : 0;
+@endphp
 <div class="max-w-7xl mx-auto p-6">
 
     {{-- HEADER --}}
@@ -71,20 +83,20 @@
 
         <div class="space-y-4">
 
-            @foreach($user->progress->groupBy('materi_id') as $materiId => $progresses)
+            @foreach($materi as $item)
 
                 @php
-                    $materi = $progresses->first()->materi;
+                    $progresses = $user->progress->where('materi_id', $item->id);
 
                     $materiProgress = $progresses->where('tipe','materi')->first();
-                    $videoProgress = $progresses->where('tipe','video')->first();
-                    $audioProgress = $progresses->where('tipe','audio')->first();
+                    $videoProgress  = $progresses->where('tipe','video')->first();
+                    $audioProgress  = $progresses->where('tipe','audio')->first();
                 @endphp
 
                 <div class="border rounded-xl p-5">
 
                     <h3 class="font-semibold text-lg text-gray-800 mb-4">
-                        {{ $materi->judul }}
+                        {{ $item->judul }}
                     </h3>
 
                     {{-- Materi --}}
@@ -92,7 +104,11 @@
 
                         <div class="flex justify-between mb-1">
                             <span>Materi</span>
-                            <span>{{ $materiProgress->persentase ?? 0 }}%</span>
+                            @if($materiProgress)
+                                <span>{{ $materiProgress->persentase }}%</span>
+                            @else
+                                <span>0%</span>
+                            @endif
                         </div>
 
                         <div class="w-full bg-gray-200 rounded-full h-2">
@@ -108,7 +124,11 @@
 
                         <div class="flex justify-between mb-1">
                             <span>Video</span>
-                            <span>{{ $videoProgress->persentase ?? 0 }}%</span>
+                            @if($videoProgress)
+                                <span>{{ $videoProgress->persentase }}%</span>
+                            @else
+                                <span>0%</span>
+                            @endif
                         </div>
 
                         <div class="w-full bg-gray-200 rounded-full h-2">
@@ -124,7 +144,11 @@
 
                         <div class="flex justify-between mb-1">
                             <span>Audio</span>
-                            <span>{{ $audioProgress->persentase ?? 0 }}%</span>
+                            @if($audioProgress)
+                                <span>{{ $audioProgress->persentase }}%</span>
+                            @else
+                                <span>0%</span>
+                            @endif
                         </div>
 
                         <div class="w-full bg-gray-200 rounded-full h-2">

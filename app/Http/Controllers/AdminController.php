@@ -214,21 +214,25 @@ class AdminController extends Controller
     public function progress()
     {
         $users = User::with([
-            'progress.materi',
+            'progress',
             'hasil_quiz'
         ])->where('role', 'user')->get();
 
-        return view('admin.pages.progress', compact('users'));
+        $totalMateri = Materi::count();
+
+        return view('admin.pages.progress', compact('users', 'totalMateri'));
     }
 
     public function detailProgress($id)
     {
         $user = User::with([
-            'progress.materi',
+            'progress',
             'hasil_quiz.quiz'
         ])->findOrFail($id);
 
-        return view('admin.pages.detail-progress', compact('user'));
+        $materi = Materi::with('konten_materi')->get();
+
+        return view('admin.pages.detail-progress', compact('user', 'materi'));
     }
 
 }

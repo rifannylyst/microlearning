@@ -459,14 +459,14 @@
 
         document.getElementById('editQuizJudul').value = judul;
         document.getElementById('editQuizForm').action =
-            `/admin/materi/{{ $materi->id }}/quiz/${id}`;
+            `/admin/quiz/${id}`;
     }
 
     function deleteQuizModal(id) {
 
         openModal('deleteQuizModal');
         document.getElementById('deleteQuizForm').action =
-            `/admin/materi/{{ $materi->id }}/quiz/${id}`;
+            `/admin/quiz/${id}`;
     }
 
     document.getElementById('tipeKonten').addEventListener('change', function () {

@@ -51,6 +51,8 @@ Route::middleware(['auth', 'admin'])
     //Route::get('materi/{id}/next-urutan/{tipe}', [App\Http\Controllers\AdminController::class, 'getNextUrutan'])->name('admin.materi.konten.next-urutan');
     Route::post('/materi/{id}/quiz', [App\Http\Controllers\KuisController::class, 'tambahQuiz'])->name('admin.materi.quiz.store');
     Route::get('/quiz/{id}', [App\Http\Controllers\KuisController::class, 'detailQuiz'])->name('admin.quiz.detail-quiz');
+    Route::put('/quiz/{id}', [App\Http\Controllers\KuisController::class, 'editQuiz'])->name('admin.quiz.update');
+    Route::delete('/quiz/{id}', [App\Http\Controllers\KuisController::class, 'deleteQuiz'])->name('admin.quiz.destroy');
     Route::post('/pertanyaan/{quizId}', [App\Http\Controllers\KuisController::class, 'pertanyaanStore'])->name('admin.pertanyaan.store');
     Route::put('/pertanyaan/{id}', [App\Http\Controllers\KuisController::class, 'pertanyaanUpdate'])->name('admin.pertanyaan.update');
     Route::delete('/pertanyaan/{id}', [App\Http\Controllers\KuisController::class, 'pertanyaanDelete'])->name('admin.pertanyaan.destroy');

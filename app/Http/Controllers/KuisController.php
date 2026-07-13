@@ -40,6 +40,28 @@ class KuisController extends Controller
         return redirect()->route('admin.materi.detail-materi', $materiId)->with('success', 'Quiz berhasil ditambahkan.');
     }
 
+    public function editQuiz(Request $request, $id)
+    {
+        $quiz = Quiz::findOrFail($id);
+
+        $validatedData = $request->validate([
+            'judul' => 'required|string|max:255',
+        ]);
+
+        $quiz->update($validatedData);
+
+        return redirect()->route('admin.materi.detail-materi', $quiz->materi_id)->with('success', 'Quiz berhasil diperbarui.');
+    }
+
+    public function deleteQuiz($id)
+    {
+        $quiz = Quiz::findOrFail($id);
+        $materiId = $quiz->materi_id;
+        $quiz->delete();
+
+        return redirect()->route('admin.materi.detail-materi', $materiId)->with('success', 'Quiz berhasil dihapus.');
+    }
+
     public function detailQuiz($id)
     {
         $quiz = Quiz::with('pertanyaan', 'pertanyaan.jawaban')->findOrFail($id);

@@ -436,9 +436,11 @@ document.querySelectorAll('.bookmark-btn').forEach(button => {
             if (data.status === 'added') {
                 icon.classList.remove('bi-bookmark');
                 icon.classList.add('bi-bookmark-fill');
+                icon.classList.add('text-warning');
             } else {
                 icon.classList.remove('bi-bookmark-fill');
                 icon.classList.add('bi-bookmark');
+                icon.classList.remove('text-warning');
             }
 
         });

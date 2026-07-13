@@ -51,7 +51,7 @@
                             href="{{ route('admin.evaluasi.soal', $evaluasi->id) }}"
                             class="w-8 h-8 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-600 border border-blue-200/30 flex items-center justify-center transition-all duration-200 shadow-sm"
                             title="Daftar Soal">
-                            <i class="bi bi-question-square text-sm"></i>
+                            <i class="bi bi-eye-fill"></i>
                         </a>
 
                         <button

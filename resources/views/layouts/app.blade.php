@@ -61,7 +61,7 @@
 
         <button
             onclick="toggleNotification()"
-            class="relative w-10 h-10 rounded-xl hover:bg-slate-100 transition flex items-center justify-center">
+            class="relative w-10 h-10 ml-6 mr-10 -translate-x-2 rounded-xl hover:bg-slate-100 transition flex items-center justify-center">
 
             <i class="bi bi-bell text-lg text-slate-600"></i>
 

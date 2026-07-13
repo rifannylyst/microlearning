@@ -32,7 +32,7 @@
                                 class="bookmark-btn"
                                 data-id="{{ $materi->id }}"
                             >
-                                <i class="bi {{ $materi->isBookmarked() ? 'bi-bookmark-fill' : 'bi-bookmark' }}"></i>
+                                <i class="bi {{ $materi->isBookmarked() ? 'bi-bookmark-fill text-warning' : 'bi-bookmark' }}"></i>
                             </button>
                         </div>
                         <div class="relative z-20">

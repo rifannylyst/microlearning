@@ -187,7 +187,7 @@
                         class="bookmark-btn"
                         data-id="{{ $course->id }}"
                     >
-                        <i class="bi {{ $course->isBookmarked() ? 'bi-bookmark-fill' : 'bi-bookmark' }}"></i>
+                        <i class="bi {{ $course->isBookmarked() ? 'bi-bookmark-fill text-warning' : 'bi-bookmark' }}"></i>
                     </button>
                 </div>
                 <div class="relative z-20">

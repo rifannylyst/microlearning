@@ -19,7 +19,7 @@
         </div>
         <table class="min-w-full table-auto">
              <thead>
-                <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                <tr class="bg-slate-50 text-slate-500 uppercase text-[11px] leading-normal font-bold border-b border-slate-100">
                  <th class="py-3 px-6 text-left">Nama</th>
                  <th class="py-3 px-6 text-left">Email</th>
                  <th class="py-3 px-6 text-left">Role</th>

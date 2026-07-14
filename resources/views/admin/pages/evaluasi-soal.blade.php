@@ -198,7 +198,7 @@
                                     type="radio"
                                     name="kunci_jawaban"
                                     value="A">
-                                <span class="ms-2">Kunci</span>
+                                <span class="ms-2 font-semibold text-sm font-poppins">Kunci</span>
                             </div>
                         </div>
                     </div>
@@ -213,7 +213,7 @@
                                     type="radio"
                                     name="kunci_jawaban"
                                     value="B">
-                                <span class="ms-2">Kunci</span>
+                                <span class="ms-2 font-semibold text-sm font-poppins">Kunci</span>
                             </div>
                         </div>
                     </div>
@@ -228,7 +228,7 @@
                                     type="radio"
                                     name="kunci_jawaban"
                                     value="C">
-                                <span class="ms-2">Kunci</span>
+                                <span class="ms-2 font-semibold text-sm font-poppins">Kunci</span>
                             </div>
                         </div>
                     </div>
@@ -243,7 +243,7 @@
                                     type="radio"
                                     name="kunci_jawaban"
                                     value="D">
-                                <span class="ms-2">Kunci</span>
+                                <span class="ms-2 font-semibold text-sm font-poppins">Kunci</span>
                             </div>
                         </div>
                     </div>

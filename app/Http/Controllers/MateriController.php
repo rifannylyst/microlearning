@@ -86,13 +86,40 @@ class MateriController extends Controller
                 ->where('tipe', 'audio')
                 ->first();
 
+            $notifMateri = ProgressKonten::where('user_id', $userId)
+                ->whereHas('kontenMateri', function ($q) use ($materi) {
+                    $q->where('materi_id', $materi->id)
+                    ->where('tipe', 'materi');
+                })
+                ->where('is_completed', true)
+                ->exists();
+
+            $notifVideo = ProgressKonten::where('user_id', $userId)
+                ->whereHas('kontenMateri', function ($q) use ($materi) {
+                    $q->where('materi_id', $materi->id)
+                    ->where('tipe', 'video');
+                })
+                ->where('is_completed', true)
+                ->exists();
+
+            $notifAudio = ProgressKonten::where('user_id', $userId)
+                ->whereHas('kontenMateri', function ($q) use ($materi) {
+                    $q->where('materi_id', $materi->id)
+                    ->where('tipe', 'audio');
+                })
+                ->where('is_completed', true)
+                ->exists();
+
             return view('content.detail', compact(
                 'materi',
                 'quizUnlocked',
                 'hasilQuiz',
                 'progressMateri',
                 'progressVideo',
-                'progressAudio'
+                'progressAudio',
+                'notifMateri',
+                'notifAudio',
+                'notifVideo'
             ));
         }
 
@@ -151,6 +178,7 @@ class MateriController extends Controller
             $kontens = KontenMateri::where('materi_id', $id)
                 ->where('tipe', $tipe)
                 ->get();
+
 
             return view('content.tipe', compact('materi', 'kontens', 'tipe'));
         }

@@ -26,6 +26,15 @@
                 <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed flex-1">
                     Pelajari materi komprehensif berbasis dokumen teks untuk memahami teori dasar secara terstruktur.
                 </p>
+                @if($notifMateri)
+                    <span class="bg-emerald-50 text-emerald-600 border border-emerald-100/50 px-2.5 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider">
+                    Sudah Diselesaikan
+                    </span>
+                @else
+                    <span class="bg-red-50 text-red-600 border border-red-100/50 px-2.5 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider">
+                    Belum Diselesaikan
+                    </span>
+                @endif
                 <div class="mt-5 inline-flex items-center justify-center gap-1.5 bg-blue-600 text-white text-xs font-semibold px-4 py-2 rounded-xl shadow-sm group-hover:bg-blue-700 transition-colors w-full">
                     Buka Materi <i class="bi bi-arrow-right text-[10px]"></i>
                 </div>
@@ -44,6 +53,15 @@
                 <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed flex-1">
                     Tonton demonstrasi visual dan panduan video interaktif untuk pengalaman belajar langsung yang praktis.
                 </p>
+                @if($notifVideo)
+                    <span class="bg-emerald-50 text-emerald-600 border border-emerald-100/50 px-2.5 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider">
+                    Sudah Diselesaikan
+                    </span>
+                @else
+                    <span class="bg-red-50 text-red-600 border border-red-100/50 px-2.5 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider">
+                    Belum Diselesaikan
+                    </span>
+                @endif
                 <div class="mt-5 inline-flex items-center justify-center gap-1.5 bg-red-600 text-white text-xs font-semibold px-4 py-2 rounded-xl shadow-sm group-hover:bg-red-700 transition-colors w-full">
                     Buka Video <i class="bi bi-play-btn text-[10px]"></i>
                 </div>
@@ -62,6 +80,15 @@
                 <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed flex-1">
                     Dengarkan pembahasan audio ringkas dan penjelasan konsep penting secara fleksibel di mana pun Anda berada.
                 </p>
+                @if($notifAudio)
+                    <span class="bg-emerald-50 text-emerald-600 border border-emerald-100/50 px-2.5 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider">
+                    Sudah Diselesaikan
+                    </span>
+                 @else
+                    <span class="bg-red-50 text-red-600 border border-red-100/50 px-2.5 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider">
+                    Belum Diselesaikan
+                    </span>
+                @endif
                 <div class="mt-5 inline-flex items-center justify-center gap-1.5 bg-emerald-600 text-white text-xs font-semibold px-4 py-2 rounded-xl shadow-sm group-hover:bg-emerald-700 transition-colors w-full">
                     Buka Audio <i class="bi bi-headphones text-[10px]"></i>
                 </div>
@@ -86,8 +113,13 @@
                         </p>
                     </div>
 
+                    <div class="bg-slate-50/50 p-4 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3.5 mb-3">
                     @if($quizUnlocked)
                         @if(isset($hasilQuiz[$quiz->id]))
+                            <a href="{{ route('materi.quiz.detail', [ 'id' => $materi->id, 'quizId' => $quiz->id]) }}" 
+                                class="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-semibold shadow-sm hover:shadow transition-all">
+                                    Lihat hasil
+                            </a>
                             @if($hasilQuiz[$quiz->id]->status == 'lulus')
                                 <div class="flex items-center gap-3">
                                     <span class="bg-emerald-50 text-emerald-600 border border-emerald-100/50 px-2.5 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider">
@@ -117,6 +149,7 @@
                             Terkunci <i class="bi bi-lock-fill text-[10px]"></i>
                         </button>
                     @endif
+                    </div>
                 </div>
             @endforeach
         </div>

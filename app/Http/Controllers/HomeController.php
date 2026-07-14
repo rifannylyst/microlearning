@@ -8,6 +8,7 @@ use App\Models\Bookmarks;
 use App\Models\Evaluasi;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Notifications;
+use App\Models\HasilEvaluasi;
 
 class HomeController extends Controller
 {
@@ -76,12 +77,13 @@ class HomeController extends Controller
     }
 
     public function evaluasi(){
-         $evaluasis = Evaluasi::withCount('soal')
+        $evaluasis = Evaluasi::withCount('soal')
              ->with(['hasil' => function ($query) {
                  $query->where('user_id', auth()->id());
              }])
              ->latest()
              ->get();
+
 
         return view('content.evaluasi', compact('evaluasis'));
     }
@@ -110,7 +112,7 @@ class HomeController extends Controller
             'is_read' => true
         ]);
 
-        switch ($notification->reference_type) {
+        switch ($notification->tipe) {
 
             case 'materi':
                 return redirect()->route(
@@ -126,6 +128,11 @@ class HomeController extends Controller
             case 'evaluasi':
                 return redirect()->route(
                     'evaluasi'
+                );
+
+            case 'progress':
+                return redirect()->route(
+                    'progress'
                 );
 
             default:

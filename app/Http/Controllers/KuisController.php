@@ -11,6 +11,7 @@ use App\Models\Quiz;
 use App\Models\Pertanyaan;
 use App\Models\Jawaban;
 use App\Helpers\NotificationHelper;
+use App\Models\jawaban_siswa;
 
 class KuisController extends Controller
 {
@@ -199,4 +200,20 @@ class KuisController extends Controller
 
         return back()->with('success', 'Jawaban berhasil dihapus.');
     }
+
+    /*
+    public function hasil(Quiz $quiz)
+    {
+        $jawabans = jawaban_siswa::with('pertanyaan')
+            ->where('user_id', auth()->id())
+            ->whereHas('pertanyaan', function ($query) use ($quiz) {
+                $query->where('quiz_id', $quiz->id);
+            })
+            ->get();
+
+        return view(
+            'content.kuis-hasil',
+            compact('quiz', 'jawabans')
+        );
+    }*/
 }

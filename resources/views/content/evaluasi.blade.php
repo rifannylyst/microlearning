@@ -42,11 +42,21 @@
                 <p class="text-xs text-slate-500 line-clamp-3 leading-relaxed flex-1 mb-5">
                     {{ $evaluasi->deskripsi }}
                 </p>
+                @if($evaluasi->hasil->isNotEmpty())
+                <span class="inline-flex justify-center items-center w-30 h-10 bg-emerald-50 text-emerald-600 border border-emerald-100 px-3 py-1.5 rounded-full text-xs font-semibold">
+                    Nilai: {{ $evaluasi->hasil->last()->nilai }}
+                </span>
+                @else
+                <span class="inline-flex justify-center items-center w-40 h-10 bg-red-50 text-red-600 border border-red-100/50 px-3 py-1.5 rounded-full text-xs font-semibold">
+                    Belum Mengerjakan
+                </span>
+                @endif
 
                 @php
                     $sudahMengerjakan = $evaluasi->hasil->isNotEmpty();
                 @endphp
-
+                <br>
+    
                 <a href="{{ $sudahMengerjakan ? route('siswa.evaluasi.hasil', $evaluasi->id) : route('siswa.evaluasi.show', $evaluasi->id) }}"
                    class="mt-auto block text-center bg-blue-600 hover:bg-blue-700 text-white py-2.5 px-4 rounded-xl text-xs font-bold shadow-sm shadow-blue-500/10 hover:shadow transition-all no-underline">
                     {{ $sudahMengerjakan ? 'Lihat Hasil' : 'Mulai Evaluasi' }}

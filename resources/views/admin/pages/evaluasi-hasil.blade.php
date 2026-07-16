@@ -10,21 +10,16 @@
 
             @php
                 $user = $jawabans->first()->user;
-
+                
+                // Tambahkan kembali baris ini agar tidak error "Undefined variable"
                 $belumDinilai = $jawabans
                     ->where('soal.tipe', 'isian')
                     ->whereNull('benar')
                     ->count();
 
-                $jumlahBenar = $jawabans
-                    ->where('benar', 1)
-                    ->count();
-
-                $totalSoal = $jawabans->count();
-
-                $nilai = $totalSoal > 0
-                    ? round(($jumlahBenar / $totalSoal) * 100)
-                    : 0;
+                $totalSoal = $jawabans->count(); // Menghitung seluruh soal (PG + Isian)
+                $jumlahBenar = $jawabans->where('benar', 1)->count();
+                $nilai = $totalSoal > 0 ? round(($jumlahBenar / $totalSoal) * 100) : 0;
             @endphp
 
             <div class="col-md-4 mb-4">
@@ -41,17 +36,20 @@
                             {{ $user->email }}
                         </p>
 
-                        <p>
-                            Total Jawaban:
-                             <strong>{{ $totalSoal }}</strong>
-                        </p>
+                        {{-- Details Section --}}
+                        <div class="space-y-2 border-t border-slate-100 pt-3">
+                            <div class="flex justify-between items-center text-xs font-medium text-slate-500">
+                                <span>Total Jawaban</span>
+                                <span class="text-slate-600 font-medium">{{ $totalSoal }}</span>
+                            </div>
 
-                        <p>
-                            Nilai:
-                            <span class="badge bg-primary">
-                                {{ $nilai }}
-                            </span>
-                        </p>
+                            <div class="flex justify-between items-center text-xs font-medium text-slate-500">
+                                <span>Nilai</span>
+                                <span class="text-slate-600 font-medium">
+                                    {{ $nilai }}
+                                </span>
+                            </div>
+                        </div>
 
                         @if($belumDinilai > 0)
 

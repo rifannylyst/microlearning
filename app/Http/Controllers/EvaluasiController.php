@@ -164,18 +164,16 @@ class EvaluasiController extends Controller
         // Cek apakah siswa sudah pernah mengerjakan
         $hasil = HasilEvaluasi::where('evaluasi_id', $evaluasi->id)
             ->where('user_id', auth()->id())
-            ->first();
+            ->exists();
 
-        if ($hasil) {
-            return redirect()->route(
-                'siswa.evaluasi.hasil',
-                $evaluasi->id
-            );
-        }
+        $jawabanEvaluasi = JawabanEvaluasi::where('user_id', auth()->id())
+            ->where('evaluasi_id', $evaluasi->id)
+            ->get()
+            ->keyBy('soal_evaluasi_id');
 
         return view(
             'content.evaluasi-show',
-            compact('evaluasi')
+            compact('evaluasi', 'hasil', 'jawabanEvaluasi')
         );
     }
 
@@ -197,7 +195,6 @@ class EvaluasiController extends Controller
             $jumlahPG = $evaluasi->soal()
                 ->where('tipe', 'pilihan_ganda')
                 ->count();
-
             foreach ($request->jawaban as $soalId => $jawaban) {
 
                 $soal = SoalEvaluasi::find($soalId);
@@ -220,6 +217,7 @@ class EvaluasiController extends Controller
 
                 // Simpan jawaban siswa
                 JawabanEvaluasi::create([
+                    'evaluasi_id' => $evaluasi->id,
                     'soal_evaluasi_id' => $soal->id,
                     'user_id'          => auth()->id(),
                     'jawaban'          => $jawaban,
@@ -252,7 +250,7 @@ class EvaluasiController extends Controller
             );
 
             return redirect()->route(
-                'siswa.evaluasi.hasil',
+                'evaluasi',
                 $evaluasi->id
             );
 
@@ -260,10 +258,7 @@ class EvaluasiController extends Controller
 
             DB::rollBack();
 
-            return back()->with(
-                'error',
-                'Terjadi kesalahan saat menyimpan jawaban.'
-            );
+            dd($e->getMessage());
         }
     }
 
@@ -288,30 +283,61 @@ class EvaluasiController extends Controller
     public function adminHasil()
     {
         $hasil = JawabanEvaluasi::with([
-        'user',
-        'soal.evaluasi'
-    ])
-    ->get()
-    ->groupBy('user_id');
+                'user',
+                'soal.evaluasi'
+            ])
+            ->get()
+            ->groupBy('user_id');
 
-    return view(
-        'admin.pages.evaluasi-hasil',
-        compact('hasil')
-    );
+        // Hapus $user = $hasil->user;
+
+        return view(
+            'admin.pages.evaluasi-hasil',
+            compact('hasil') // Hanya kirim 'hasil'
+        );
     }
 
     public function nilai(Request $request, $id)
     {
-        $jawaban = JawabanEvaluasi::findOrFail($id);
+        // 1. Ambil data jawaban beserta relasi soalnya
+    $jawaban = JawabanEvaluasi::with('soal')->findOrFail($id);
 
-        $jawaban->update([
-            'benar' => $request->benar
+    // 2. Update status benar/salah jawaban isian tersebut
+    $jawaban->update([
+        'benar' => $request->benar
+    ]);
+
+    $evaluasiId = $jawaban->soal->evaluasi_id;
+    $userId = $jawaban->user_id;
+
+    // 3. Ambil seluruh jawaban evaluasi siswa ini untuk menghitung ulang nilai akhir
+    $allJawabans = JawabanEvaluasi::where('user_id', $userId)
+        ->whereHas('soal', function($q) use ($evaluasiId) {
+            $q->where('evaluasi_id', $evaluasiId);
+        })->get();
+
+    $totalSoal = $allJawabans->count();
+    $jumlahBenar = $allJawabans->where('benar', 1)->count();
+    $jumlahSalah = $totalSoal - $jumlahBenar;
+
+    // Rumus baru: Menghitung total nilai akhir gabungan (PG + Isian)
+    $nilaiBaru = $totalSoal > 0 
+        ? round(($jumlahBenar / $totalSoal) * 100, 2) 
+        : 0;
+
+    // 4. Update data nilai akhir terbaru di tabel hasil_evaluasis
+    HasilEvaluasi::where('user_id', $userId)
+        ->where('evaluasi_id', $evaluasiId)
+        ->update([
+            'jumlah_benar' => $jumlahBenar,
+            'jumlah_salah' => $jumlahSalah,
+            'nilai'        => $nilaiBaru
         ]);
 
-        return back()->with(
-            'success',
-            'Jawaban berhasil dinilai'
-        );
+    return back()->with(
+        'success', 
+        'Jawaban berhasil dinilai dan nilai akhir di database telah diperbarui.'
+    );
     }
 
     public function detail($userId)

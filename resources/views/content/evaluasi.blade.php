@@ -57,7 +57,7 @@
                 @endphp
                 <br>
     
-                <a href="{{ $sudahMengerjakan ? route('siswa.evaluasi.hasil', $evaluasi->id) : route('siswa.evaluasi.show', $evaluasi->id) }}"
+                <a href="{{ $sudahMengerjakan ? route('siswa.evaluasi.show', $evaluasi->id) : route('siswa.evaluasi.show', $evaluasi->id) }}"
                    class="mt-auto block text-center bg-blue-600 hover:bg-blue-700 text-white py-2.5 px-4 rounded-xl text-xs font-bold shadow-sm shadow-blue-500/10 hover:shadow transition-all no-underline">
                     {{ $sudahMengerjakan ? 'Lihat Hasil' : 'Mulai Evaluasi' }}
                 </a>

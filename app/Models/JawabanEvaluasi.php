@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class JawabanEvaluasi extends Model
 {
-    protected $fillable = ['soal_evaluasi_id', 'user_id', 'jawaban', 'benar'];
+    protected $fillable = ['evaluasi_id', 'soal_evaluasi_id', 'user_id', 'jawaban', 'benar'];
 
     public function soal()
     {
@@ -16,5 +16,10 @@ class JawabanEvaluasi extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function evaluasi()
+    {
+        return $this->belongsTo(Evaluasi::class);
     }
 }

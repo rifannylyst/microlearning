@@ -55,7 +55,16 @@ class LoginController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-        ]);
+        ],
+        [
+        'password.required' => 'Password wajib diisi.',
+        'password.min' => 'Password minimal 8 karakter.',
+        'password.confirmed' => 'Konfirmasi password tidak cocok.',
+        'email.unique' => 'Email sudah digunakan.',
+        'email.email' => 'Format email tidak valid.',
+        'name.required' => 'Nama wajib diisi.',
+        'name.string' => 'Nama harus berupa teks.',
+        'name.max' => 'Nama maksimal 255 karakter.',]);
 
         $user = new \App\Models\User();
         $user->name = $request->name;

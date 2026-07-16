@@ -95,4 +95,8 @@ public function bookmarks() {
     return $this->hasMany(Bookmarks::class);
 }
 
+public function hasilEvaluasi() {
+    return $this->hasMany(HasilEvaluasi::class); 
+}
+
 }

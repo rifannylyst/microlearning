@@ -11,7 +11,8 @@ Route::post('/login', [App\Http\Controllers\LoginController::class, 'login']);
 Route::get('/register', [App\Http\Controllers\LoginController::class, 'register'])->name('register');
 Route::post('/register', [App\Http\Controllers\LoginController::class, 'registerUser']);
 
-Route::middleware('auth')->group(function() {
+Route::middleware(['auth', 'nocache'])
+->group(function() {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::post('/logout', [App\Http\Controllers\LoginController::class, 'logout'])->name('logout');
     Route::get('/materi', [App\Http\Controllers\MateriController::class, 'index'])->name('materi.index');
@@ -36,7 +37,7 @@ Route::middleware('auth')->group(function() {
     Route::get('/notifications/read/{id}', [App\Http\Controllers\HomeController::class, 'read'])->name('notifications.read');
     });
 
-Route::middleware(['auth', 'admin'])
+Route::middleware(['auth', 'admin', 'nocache'])
 ->prefix('admin')
 ->group(function() {
     Route::get('/dashboard', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.dashboard');
@@ -76,4 +77,6 @@ Route::middleware(['auth', 'admin'])
     Route::get('/evaluasi/hasil', [App\Http\Controllers\EvaluasiController::class, 'adminHasil'])->name('admin.evaluasi.hasil');
     Route::put('/evaluasi/nilai/{id}', [App\Http\Controllers\EvaluasiController::class, 'nilai'])->name('admin.evaluasi.nilai');
     Route::get('/evaluasi/hasil/{user}', [App\Http\Controllers\EvaluasiController::class, 'detail'])->name('admin.evaluasi.detail');
+    Route::get('/nilai', [App\Http\Controllers\NilaiController::class, 'index'])->name('admin.nilai.index');
+    Route::get('/nilai/export', [App\Http\Controllers\NilaiController::class, 'export'])->name('admin.nilai.export');
     });

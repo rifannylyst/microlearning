@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('jawaban_evaluasis', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('evaluasi_id')->constrained('evaluasis')->onDelete('cascade');
             $table->foreignId('soal_evaluasi_id')->constrained('soal_evaluasis')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->text('jawaban');
             $table->boolean('benar')->nullable();
             $table->timestamps();
         });
+
     }
 
     /**

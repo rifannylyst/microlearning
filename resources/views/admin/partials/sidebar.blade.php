@@ -48,6 +48,13 @@
             <span>Evaluasi</span>
         </a>
 
+         {{-- Menu Baru: Nilai Siswa --}}
+        <a href="{{ route('admin.nilai.index') }}"
+            class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-sm font-medium {{ request()->routeIs('admin.nilai.*') ? 'bg-blue-600 text-white shadow-md shadow-blue-500/10 font-semibold' : 'hover:bg-slate-800/60 hover:text-white text-slate-400' }}">
+            <i class="bi bi-file-earmark-spreadsheet text-base"></i>
+            <span>Nilai Siswa</span>
+        </a>
+
         {{-- Pengguna --}}
         <a href="{{ route('admin.pengguna') }}"
             class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-sm font-medium {{ request()->routeIs('admin.pengguna') ? 'bg-blue-600 text-white shadow-md shadow-blue-500/10 font-semibold' : 'hover:bg-slate-800/60 hover:text-white text-slate-400' }}">
